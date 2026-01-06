@@ -2291,132 +2291,69 @@
         </div>
     </div>
 
-    <script>
-        // ===== GLOBAL VARIABLES =====
-        let supabaseClient = null;
-        let currentUser = null;
-
-        // ===== DOM CONTENT LOADED =====
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide icons
+<script>
+    // 1. SAFE LUCIDE INITIALIZATION
+    // We wrap this in a check to ensure the library loaded
+    function initIcons() {
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
             lucide.createIcons();
-
-            // Initialize Supabase
-            initializeSupabase();
-
-            // Initialize all components
-            initializeComponents();
-        });
-
-        // ===== SUPABASE INITIALIZATION =====
-        function initializeSupabase() {
-            const supabaseUrl = 'https://zipowqnjznngzyxdtxwm.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppcG93cW5qem5uZ3p5eGR0eHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2NzEyNTQsImV4cCI6MjA4MzI0NzI1NH0.6OKydmyzpbtyWG7GzTSnXwudwBABsFVWiNfX4G7II3g';
-            
-            try {
-                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-                console.log("Supabase initialized successfully");
-                
-                // Check auth state after initialization
-                checkAuthState();
-                
-                // Listen for auth state changes
-                supabaseClient.auth.onAuthStateChange((event, session) => {
-                    console.log("Auth state changed:", event);
-                    if (event === 'SIGNED_IN' && session?.user) {
-                        currentUser = session.user;
-                        updateAuthUI(currentUser);
-                        window.location.href = 'https://savifytrial.vercel.app/dashboard.html';
-                    } else if (event === 'SIGNED_OUT') {
-                        currentUser = null;
-                        updateAuthUI(null);
-                    }
-                });
-            } catch (error) {
-                console.error("Error initializing Supabase:", error);
-            }
+        } else {
+            console.warn('Lucide icons not loaded yet, retrying...');
+            // Optional: Retry after a moment if network is slow
+            setTimeout(initIcons, 500); 
         }
+    }
 
-        // ===== COMPONENT INITIALIZATION =====
-        function initializeComponents() {
-            // Mobile menu toggle
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileNav = document.getElementById('mobileNav');
+    // 2. MAIN EXECUTION WRAPPER
+    // Ensure HTML is fully ready before attaching listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // Initialize icons
+        initIcons();
 
-            if (mobileMenuBtn) {
-                mobileMenuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    mobileNav.classList.toggle('active');
-                    mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
-                        ? '<i class="fas fa-times"></i>'
-                        : '<i class="fas fa-bars"></i>';
-                });
-            }
+        // ===== MOBILE MENU TOGGLE =====
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const header = document.getElementById('header');
+
+        if (mobileMenuBtn && mobileNav) { // Safety check
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
+                    ? '<i class="fas fa-times"></i>'
+                    : '<i class="fas fa-bars"></i>';
+            });
 
             // Close mobile menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (mobileNav && mobileMenuBtn && !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            document.addEventListener('click', (e) => {
+                if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                     mobileNav.classList.remove('active');
-                    if (mobileMenuBtn) {
-                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
 
             // Close mobile menu when clicking a link
-            if (mobileNav) {
-                mobileNav.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileNav.classList.remove('active');
-                        if (mobileMenuBtn) {
-                            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                        }
-                    });
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 });
-            }
-
-            // Header scroll effect
-            const header = document.getElementById('header');
-            if (header) {
-                window.addEventListener('scroll', function() {
-                    if (window.scrollY > 50) {
-                        header.classList.add('scrolled');
-                    } else {
-                        header.classList.remove('scrolled');
-                    }
-                });
-            }
-
-            // Interactive allocation chart
-            createAllocationChart();
-
-            // Intersection Observer for animations
-            setupIntersectionObserver();
-
-            // Smooth scrolling
-            setupSmoothScrolling();
-
-            // Parallax background effect
-            setupParallaxEffect();
-
-            // Glow effects
-            setupGlowEffects();
-
-            // Auth modal
-            setupAuthModal();
-
-            // User profile dropdown
-            setupUserProfile();
-
-            // Auth buttons
-            setupAuthButtons();
+            });
         }
 
-        // ===== ALLOCATION CHART =====
-        function createAllocationChart() {
-            const allocationChart = document.getElementById('allocationChart');
-            if (!allocationChart) return;
+        // ===== HEADER SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
+        // ===== INTERACTIVE ALLOCATION CHART =====
+        const allocationChart = document.getElementById('allocationChart');
+        if (allocationChart) {
             const allocationData = [
                 {
                     label: 'Optimal Balance',
@@ -2444,6 +2381,7 @@
                 }
             ];
 
+            // Clear any existing content
             allocationChart.innerHTML = '';
 
             allocationData.forEach((data, index) => {
@@ -2480,347 +2418,169 @@
         }
 
         // ===== INTERSECTION OBSERVER =====
-        function setupIntersectionObserver() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -100px 0px'
-            };
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-
-                        if (entry.target.classList.contains('score-display')) {
-                            animateBalanceScore();
-                        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('score-display')) {
+                        animateBalanceScore();
                     }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
+                }
             });
-        }
+        }, observerOptions);
 
-        // ===== BALANCE SCORE ANIMATION =====
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== ANIMATED BALANCE SCORE =====
         function animateBalanceScore() {
             const scoreElement = document.getElementById('scoreValue');
-            if (!scoreElement) return;
-
+            if(!scoreElement) return;
+            
             const targetScore = 86;
             let currentScore = 0;
-            const duration = 2500;
+            const duration = 2500; 
             const increment = targetScore / (duration / 16);
+            let hasRun = false;
+
+            // Simple check to ensure we don't over-animate
+            if(scoreElement.getAttribute('data-animated') === 'true') return;
 
             const timer = setInterval(() => {
                 currentScore += increment;
                 if (currentScore >= targetScore) {
                     currentScore = targetScore;
                     clearInterval(timer);
+                    scoreElement.setAttribute('data-animated', 'true');
                 }
                 scoreElement.textContent = Math.floor(currentScore);
             }, 16);
         }
 
         // ===== SMOOTH SCROLLING =====
-        function setupSmoothScrolling() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        }
-
-        // ===== PARALLAX EFFECT =====
-        function setupParallaxEffect() {
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const heroBackground = document.querySelector('.hero-background');
-                if (heroBackground) {
-                    heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
                 }
-
-                const orbs = document.querySelectorAll('.floating-orb');
-                orbs.forEach((orb, index) => {
-                    const speed = 0.03 + (index * 0.01);
-                    orb.style.transform = `translateY(${scrolled * speed}px)`;
-                });
             });
-        }
+        });
 
-        // ===== GLOW EFFECTS =====
-        function setupGlowEffects() {
-            const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+        // ===== AUTH MODAL LOGIC (THE FIX) =====
+        const authModal = document.getElementById('authModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const authButtons = document.querySelectorAll('.btn-auth');
 
-            interactiveElements.forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
-                });
-
-                element.addEventListener('mouseleave', () => {
-                    if (element.classList.contains('btn-primary')) {
-                        element.style.boxShadow = 'var(--shadow-glow)';
-                    } else {
-                        element.style.boxShadow = '';
-                    }
-                });
-            });
-
-            // Random glow pulses
-            setInterval(() => {
-                const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
-                if (interactiveElements.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * interactiveElements.length);
-                    const randomElement = interactiveElements[randomIndex];
-                    const originalBoxShadow = randomElement.style.boxShadow;
-                    randomElement.style.boxShadow = '0 0 40px rgba(16, 185, 129, 0.6)';
-                    setTimeout(() => {
-                        randomElement.style.boxShadow = originalBoxShadow;
-                    }, 300);
-                }
-            }, 3000);
-        }
-
-        // ===== AUTH MODAL =====
-        function setupAuthModal() {
-            const authModal = document.getElementById('authModal');
-            const closeModalBtn = document.getElementById('closeModal');
-            const googleSignInBtn = document.getElementById('googleSignInBtn');
-
+        // Check if elements exist before adding listeners
+        if (authModal && closeModalBtn) {
             // Open Modal
-            function openAuthModal() {
-                if (authModal) {
+            authButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // This is crucial
                     authModal.classList.add('active');
+                    authModal.style.display = 'flex'; // Force display flex just in case
                     document.body.style.overflow = 'hidden';
-                }
-            }
+                });
+            });
 
             // Close Modal Function
             function closeAuthModal() {
-                if (authModal) {
-                    authModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
+                authModal.classList.remove('active');
+                setTimeout(() => {
+                     // Wait for transition before hiding, strictly optional
+                     if(!authModal.classList.contains('active')) {
+                        // authModal.style.display = 'none'; 
+                     }
+                }, 300);
+                document.body.style.overflow = '';
             }
-
-            // Event listeners for opening modal
-            document.querySelectorAll('.get-started-btn, .cta-get-started-btn, .desktop-login-btn, .desktop-signup-btn, .mobile-login-btn, .mobile-signup-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    openAuthModal();
-                });
-            });
 
             // Close on X click
-            if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', closeAuthModal);
-            }
+            closeModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeAuthModal();
+            });
 
             // Close on background click
-            if (authModal) {
-                authModal.addEventListener('click', function(e) {
-                    if (e.target === authModal) {
-                        closeAuthModal();
-                    }
-                });
-            }
-
-            // Close on Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && authModal && authModal.classList.contains('active')) {
+            authModal.addEventListener('click', (e) => {
+                if (e.target === authModal) {
                     closeAuthModal();
                 }
             });
 
-            // Google sign in
-            if (googleSignInBtn) {
-                googleSignInBtn.addEventListener('click', signInWithGoogle);
-            }
-        }
-
-        // ===== USER PROFILE DROPDOWN =====
-        function setupUserProfile() {
-            const userProfile = document.getElementById('userProfile');
-            const profileDropdown = document.getElementById('profileDropdown');
-
-            if (userProfile && profileDropdown) {
-                userProfile.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    profileDropdown.classList.toggle('active');
-                });
-
-                // Close dropdown when clicking outside
-                document.addEventListener('click', function() {
-                    profileDropdown.classList.remove('active');
-                });
-            }
-        }
-
-        // ===== AUTH BUTTONS =====
-        function setupAuthButtons() {
-            // Logout buttons
-            document.querySelectorAll('.logout-btn, .mobile-logout-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    signOut();
-                });
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && authModal.classList.contains('active')) {
+                    closeAuthModal();
+                }
             });
+        } else {
+            console.error("Auth modal elements not found in DOM");
         }
 
-        // ===== AUTHENTICATION FUNCTIONS =====
-        async function signInWithGoogle() {
-            try {
-                if (!supabaseClient) {
-                    console.error("Supabase client not initialized");
-                    return;
-                }
-                
-                console.log("Initiating Google Sign-In...");
-                
-                const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: 'google',
-                    options: {
-                        redirectTo: 'https://savifytrial.vercel.app/dashboard.html'
-                    }
-                });
-                
-                if (error) {
-                    console.error("Error signing in with Google:", error);
-                    alert("Error signing in. Please try again.");
-                }
-            } catch (error) {
-                console.error("Google sign-in error:", error);
-                alert("Failed to sign in with Google. Please try again.");
-            }
+        // Trigger initial fade-ins
+        document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
+            setTimeout(() => {
+                el.classList.add('visible');
+            }, 200 * index);
+        });
+
+        if (window.scrollY > 50 && header) {
+            header.classList.add('scrolled');
+        }
+    });
+
+    // ===== PARALLAX (Outside DOMContentLoaded is okay, but safer inside) =====
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const heroBackground = document.querySelector('.hero-background');
+        if (heroBackground) {
+            heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
         }
 
-        async function signOut() {
-            try {
-                if (!supabaseClient) {
-                    console.error("Supabase client not initialized");
-                    return;
-                }
-                
-                const { error } = await supabaseClient.auth.signOut();
-                if (error) throw error;
-                
-                // Update UI to show logged out state
-                updateAuthUI(null);
-                alert("Successfully logged out!");
-            } catch (error) {
-                console.error("Error signing out:", error);
-                alert("Error signing out. Please try again.");
-            }
-        }
+        const orbs = document.querySelectorAll('.floating-orb');
+        orbs.forEach((orb, index) => {
+            const speed = 0.03 + (index * 0.01);
+            orb.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
 
-        function updateAuthUI(user) {
-            const authButtons = document.getElementById('authButtons');
-            const userProfile = document.getElementById('userProfile');
-            const mobileAuthButtons = document.getElementById('mobileAuthButtons');
-            const mobileUserProfile = document.getElementById('mobileUserProfile');
-            
-            if (user) {
-                // User is logged in
-                // Hide login/signup buttons
-                if (authButtons) {
-                    const desktopLoginBtn = authButtons.querySelector('.desktop-login-btn');
-                    const desktopSignupBtn = authButtons.querySelector('.desktop-signup-btn');
-                    if (desktopLoginBtn) desktopLoginBtn.style.display = 'none';
-                    if (desktopSignupBtn) desktopSignupBtn.style.display = 'none';
-                    
-                    // Show user profile
-                    if (userProfile) userProfile.style.display = 'flex';
-                    
-                    // Update user info
-                    const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
-                    const avatarLetter = displayName.charAt(0).toUpperCase();
-                    
-                    const profileName = document.getElementById('profileName');
-                    const profileAvatar = document.getElementById('profileAvatar');
-                    if (profileName) profileName.textContent = displayName;
-                    if (profileAvatar) profileAvatar.innerHTML = `<span>${avatarLetter}</span>`;
-                }
-                
-                // Mobile version
-                if (mobileAuthButtons) {
-                    const mobileLoginBtn = mobileAuthButtons.querySelector('.mobile-login-btn');
-                    const mobileSignupBtn = mobileAuthButtons.querySelector('.mobile-signup-btn');
-                    if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
-                    if (mobileSignupBtn) mobileSignupBtn.style.display = 'none';
-                    if (mobileUserProfile) mobileUserProfile.style.display = 'flex';
-                    
-                    const mobileProfileName = document.getElementById('mobileProfileName');
-                    const mobileProfileAvatar = document.getElementById('mobileProfileAvatar');
-                    if (mobileProfileName) mobileProfileName.textContent = displayName;
-                    if (mobileProfileAvatar) mobileProfileAvatar.innerHTML = `<span>${avatarLetter}</span>`;
-                }
-                
-                // Close auth modal if open
-                const authModal = document.getElementById('authModal');
-                if (authModal && authModal.classList.contains('active')) {
-                    authModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
+    // ===== GLOW EFFECT =====
+    const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
+        });
+
+        element.addEventListener('mouseleave', () => {
+            if (element.classList.contains('btn-primary')) {
+                element.style.boxShadow = 'var(--shadow-glow)';
             } else {
-                // User is logged out
-                // Show login/signup buttons
-                if (authButtons) {
-                    const desktopLoginBtn = authButtons.querySelector('.desktop-login-btn');
-                    const desktopSignupBtn = authButtons.querySelector('.desktop-signup-btn');
-                    if (desktopLoginBtn) desktopLoginBtn.style.display = 'flex';
-                    if (desktopSignupBtn) desktopSignupBtn.style.display = 'flex';
-                    
-                    // Hide user profile
-                    if (userProfile) userProfile.style.display = 'none';
-                }
-                
-                // Mobile version
-                if (mobileAuthButtons) {
-                    const mobileLoginBtn = mobileAuthButtons.querySelector('.mobile-login-btn');
-                    const mobileSignupBtn = mobileAuthButtons.querySelector('.mobile-signup-btn');
-                    if (mobileLoginBtn) mobileLoginBtn.style.display = 'flex';
-                    if (mobileSignupBtn) mobileSignupBtn.style.display = 'flex';
-                    if (mobileUserProfile) mobileUserProfile.style.display = 'none';
-                }
+                element.style.boxShadow = '';
             }
-        }
+        });
+    });
 
-        // Check current auth state
-        async function checkAuthState() {
-            try {
-                if (!supabaseClient) {
-                    console.error("Supabase client not initialized");
-                    return;
-                }
-                
-                const { data: { user }, error } = await supabaseClient.auth.getUser();
-                if (error) throw error;
-                
-                if (user) {
-                    console.log("User is logged in:", user.email);
-                    currentUser = user;
-                    updateAuthUI(user);
-                } else {
-                    console.log("No user logged in");
-                    currentUser = null;
-                    updateAuthUI(null);
-                }
-            } catch (error) {
-                console.error("Error checking auth state:", error);
-                currentUser = null;
-                updateAuthUI(null);
-            }
-        }
-    </script>
+    // ===== SUPABASE PLACEHOLDER =====
+    async function signInWithGoogle() {
+        console.log("Initiating Google Sign-In...");
+        alert("This button is connected! Configure Supabase keys to continue.");
+    }
+</script>
 </body>
 </html>
+
