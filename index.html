@@ -1,0 +1,2268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savify — Financial Intelligence Through Balance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* ===== PREMIUM CSS RESET & VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* ===== LUXURY COLOR PALETTE ===== */
+            --color-obsidian: #0A0A0A;
+            --color-charcoal: #161616;
+            --color-graphite: #222222;
+            --color-slate: #2D3748;
+
+            --color-emerald: #10B981;
+            --color-emerald-light: #34D399;
+            --color-emerald-dark: #059669;
+            --color-emerald-glow: rgba(16, 185, 129, 0.15);
+
+            --color-gold: #D4AF37;
+            --color-gold-light: #FBBF24;
+            --color-gold-dark: #B8860B;
+            --color-gold-glow: rgba(212, 175, 55, 0.15);
+
+            --color-platinum: #E5E7EB;
+            --color-ivory: #FAFAF9;
+            --color-cream: #F5F5F4;
+            --color-stone: #78716C;
+            --color-stone-light: #D6D3D1;
+
+            --color-border: rgba(229, 229, 229, 0.3);
+            --color-border-dark: #404040;
+
+            /* Luxury Gradients */
+            --gradient-emerald: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            --gradient-obsidian: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            --gradient-charcoal: linear-gradient(135deg, #161616 0%, #2D3748 100%);
+
+            /* Typography - Optimized sizes */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-secondary: 'Playfair Display', serif;
+            --font-weight-light: 300;
+            --font-weight-regular: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 3rem;
+            --space-xl: 4rem;
+            --space-xxl: 8rem;
+
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+            /* Shadows */
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            --shadow-luxury: 0 35px 60px -15px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 40px rgba(16, 185, 129, 0.2);
+
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 1rem;
+            --radius-lg: 1.5rem;
+            --radius-xl: 2rem;
+            --radius-full: 9999px;
+
+            /* Glass Effect */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --backdrop-blur: blur(20px);
+        }
+
+        /* ===== BASE STYLES ===== */
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-weight: var(--font-weight-regular);
+            color: var(--color-charcoal);
+            line-height: 1.7;
+            background-color: var(--color-ivory);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .section {
+            padding: var(--space-xxl) 0;
+            position: relative;
+        }
+
+        .section-dark {
+            background: var(--gradient-obsidian);
+            color: var(--color-ivory);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-light {
+            background-color: var(--color-cream);
+        }
+
+        /* ===== PREMIUM ANIMATIONS ===== */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-20px) rotate(3deg);
+            }
+
+            66% {
+                transform: translateY(-10px) rotate(-3deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8) translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes textReveal {
+            from {
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                opacity: 0;
+            }
+
+            to {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes borderFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+            }
+        }
+
+        /* ===== OPTIMIZED TYPOGRAPHY ===== */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: var(--font-weight-bold);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .hero-headline {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg,
+                    var(--color-charcoal) 0%,
+                    var(--color-emerald) 30%,
+                    var(--color-gold) 70%,
+                    var(--color-charcoal) 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+            font-family: var(--font-secondary);
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: var(--space-md);
+            color: var(--color-obsidian);
+            font-family: var(--font-secondary);
+        }
+
+        .section-headline-light {
+            color: var(--color-ivory);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: var(--font-weight-medium);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: var(--space-sm);
+            color: var(--color-emerald);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient-emerald);
+            border-radius: var(--radius-full);
+        }
+
+        .section-title-light {
+            color: var(--color-gold-light);
+        }
+
+        .section-title-light::after {
+            background: var(--gradient-gold);
+        }
+
+        .large-text {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            line-height: 1.6;
+            color: var(--color-graphite);
+            font-weight: var(--font-weight-light);
+        }
+
+        .large-text-light {
+            color: var(--color-platinum);
+        }
+
+        .body-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--color-stone);
+        }
+
+        .body-text-light {
+            color: var(--color-stone-light);
+        }
+
+        .quote {
+            font-size: clamp(1.75rem, 3vw, 2.75rem);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            font-weight: var(--font-weight-medium);
+            font-family: var(--font-secondary);
+        }
+
+        .stat-number {
+            font-size: clamp(3.5rem, 8vw, 8rem);
+            font-weight: var(--font-weight-bold);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-gold) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* ===== PREMIUM BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-family: var(--font-primary);
+            font-size: 0.9375rem;
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-bounce);
+            background-color: transparent;
+            color: var(--color-obsidian);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-emerald);
+            color: var(--color-ivory);
+            box-shadow: var(--shadow-glow);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(5, 150, 105, 0.4), 0 0 60px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--color-obsidian);
+            color: var(--color-ivory);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-charcoal);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-large);
+            border-color: var(--color-emerald);
+        }
+
+        .btn-auth {
+            padding: 0.75rem 1.75rem;
+            font-size: 0.8125rem;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: var(--color-obsidian);
+            border: 1px solid var(--color-border);
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .btn-login:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-emerald);
+            transform: translateY(-2px);
+        }
+
+        .btn-signup {
+            background: var(--gradient-emerald);
+            color: var(--color-ivory);
+            border: none;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        /* ===== PREMIUM HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2000;
+            padding: 1.25rem 0;
+            background: rgba(250, 250, 249, 0.9);
+            backdrop-filter: var(--backdrop-blur);
+            border-bottom: 1px solid var(--color-border);
+            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all var(--transition-base);
+        }
+
+        .header.scrolled {
+            padding: 1rem 0;
+            box-shadow: var(--shadow-medium);
+            background: rgba(250, 250, 249, 0.95);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: var(--font-weight-bold);
+            text-decoration: none;
+            color: var(--color-obsidian);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: transform var(--transition-base);
+            font-family: var(--font-secondary);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            color: var(--color-emerald);
+            font-size: 1.5rem;
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .nav-link {
+            font-size: 0.8125rem;
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            color: var(--color-graphite);
+            transition: all var(--transition-base);
+            position: relative;
+            padding: 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-emerald);
+            transition: width var(--transition-base);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-link:hover {
+            color: var(--color-obsidian);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-left: var(--space-xl);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-xs);
+            color: var(--color-obsidian);
+            transition: transform var(--transition-base);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--color-emerald);
+        }
+
+        /* ===== LUXURY HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--color-emerald), var(--color-gold));
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--color-gold), var(--color-emerald));
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 2s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--color-emerald-light);
+            top: 50%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-subheadline {
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            line-height: 1.6;
+            margin-bottom: var(--space-xl);
+            color: var(--color-slate);
+            font-weight: var(--font-weight-light);
+            max-width: 700px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        /* ===== LUXURY ALLOCATION CHART ===== */
+        .allocation-chart {
+            max-width: 900px;
+            margin: var(--space-xl) auto;
+            padding: var(--space-xl);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-luxury);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: var(--backdrop-blur);
+            border: 1px solid var(--color-border);
+        }
+
+        .allocation-chart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--color-emerald),
+                    var(--color-gold),
+                    transparent);
+            animation: borderFlow 3s linear infinite;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-lg);
+            height: 300px;
+            padding: var(--space-lg);
+            position: relative;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--color-emerald), var(--color-emerald-light));
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            position: relative;
+            transition: all var(--transition-bounce);
+            cursor: pointer;
+            min-height: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-bar:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Find and REPLACE your existing .bar-label and .bar-percentage styles */
+
+        .bar-label {
+            /* REMOVED: position: absolute; bottom: ... left: ... */
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--color-obsidian);
+            width: 100%;
+        }
+
+        .bar-percentage {
+            /* REMOVED: position: absolute; top: ... left: ... */
+            font-weight: 700;
+            color: var(--color-emerald);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* ADD this new class to ensure the columns align properly */
+        .chart-bar-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            /* Pushes bars to the bottom */
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-border);
+            backdrop-filter: var(--backdrop-blur);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-necessities {
+            background: var(--gradient-emerald);
+        }
+
+        .legend-development {
+            background: var(--gradient-gold);
+        }
+
+        .legend-enjoyment {
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+        }
+
+        /* ===== LUXURY STEPS ===== */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-xxl);
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--color-emerald),
+                    var(--color-gold),
+                    transparent);
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding-top: 80px;
+            transition: transform var(--transition-bounce);
+        }
+
+        .step:hover {
+            transform: translateY(-15px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-emerald);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-ivory);
+            box-shadow: 0 15px 40px rgba(5, 150, 105, 0.4);
+            animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 4px solid var(--color-ivory);
+        }
+
+        .step-content {
+            padding: var(--space-xl);
+            background: var(--color-ivory);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-medium);
+            transition: all var(--transition-base);
+            height: 100%;
+        }
+
+        .step:hover .step-content {
+            box-shadow: var(--shadow-luxury);
+            border-color: var(--color-emerald-light);
+            transform: translateY(-5px);
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+            color: var(--color-obsidian);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        /* ===== LUXURY BALANCE SCORE ===== */
+        .balance-score-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xxl);
+            align-items: center;
+        }
+
+        .score-display {
+            position: relative;
+            padding: var(--space-xl);
+        }
+
+        .score-circle {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .circle-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(var(--color-emerald) 0deg 216deg,
+                    var(--color-gold) 216deg 288deg,
+                    #8B5CF6 288deg 360deg);
+            position: relative;
+            overflow: hidden;
+            animation: rotate 20s linear infinite;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .circle-bg::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: var(--color-ivory);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .circle-inner {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            background: var(--color-ivory);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-value {
+            font-size: 4.5rem;
+            font-weight: var(--font-weight-bold);
+            background: linear-gradient(135deg, var(--color-emerald), var(--color-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .score-label {
+            font-size: 1.25rem;
+            color: var(--color-stone);
+            margin-top: var(--space-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .score-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 45%;
+            height: 4px;
+            background: var(--color-obsidian);
+            transform-origin: left center;
+            transform: rotate(-90deg);
+            animation: rotateScore 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 3;
+            border-radius: var(--radius-full);
+        }
+
+        .score-needle::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--color-obsidian);
+            border-radius: 50%;
+        }
+
+        @keyframes rotateScore {
+            to {
+                transform: rotate(126deg);
+            }
+        }
+
+        /* ===== LUXURY COMPETITION CARDS ===== */
+        .competition-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-xxl);
+        }
+
+        .competition-card {
+            padding: var(--space-xl);
+            background: var(--color-ivory);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .competition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, var(--color-emerald-glow) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .competition-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-luxury);
+            border-color: var(--color-emerald-light);
+        }
+
+        .competition-card:hover::before {
+            opacity: 1;
+        }
+
+        .competition-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            color: var(--color-emerald);
+            transition: transform var(--transition-bounce);
+        }
+
+        .competition-card:hover .competition-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* ===== LUXURY STATUS TIERS ===== */
+        .tiers-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin-top: var(--space-xxl);
+        }
+
+        .tier-card {
+            padding: var(--space-xxl) var(--space-xl);
+            background: var(--color-ivory);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all var(--transition-bounce);
+        }
+
+        .tier-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .tier-card:hover::before {
+            opacity: 1;
+        }
+
+        .tier-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-emerald), var(--color-gold));
+        }
+
+        .tier-card:nth-child(2) {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-luxury);
+            z-index: 2;
+        }
+
+        .tier-card:nth-child(2)::after {
+            height: 6px;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        .tier-card:nth-child(2):hover {
+            transform: translateY(-15px) scale(1.07);
+        }
+
+        .tier-badge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-emerald);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-ivory);
+            margin-bottom: var(--space-lg);
+            box-shadow: 0 15px 40px rgba(5, 150, 105, 0.4);
+            animation: float 4s ease-in-out infinite;
+            border: 4px solid var(--color-ivory);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tier-card:nth-child(2) .tier-badge {
+            background: var(--gradient-gold);
+            animation: float 4s ease-in-out infinite 0.5s;
+        }
+
+        .tier-card:nth-child(3) .tier-badge {
+            background: linear-gradient(135deg, var(--color-emerald), var(--color-gold));
+            animation: float 4s ease-in-out infinite 1s;
+        }
+
+        .tier-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-xs);
+            color: var(--color-obsidian);
+            font-weight: var(--font-weight-semibold);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tier-description {
+            color: var(--color-stone);
+            margin-bottom: var(--space-lg);
+            position: relative;
+            z-index: 2;
+            font-size: 0.9375rem;
+        }
+
+        .tier-features {
+            text-align: left;
+            width: 100%;
+            margin-top: var(--space-lg);
+            position: relative;
+            z-index: 2;
+        }
+
+        .tier-features li {
+            padding: var(--space-sm) 0;
+            color: var(--color-stone);
+            list-style: none;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            font-size: 0.9375rem;
+        }
+
+        .tier-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== LUXURY PHILOSOPHY SECTION ===== */
+        .philosophy {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.2) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        .philosophy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .philosophy-quote {
+            position: relative;
+            padding: var(--space-xl) 0;
+        }
+
+        .philosophy-quote::before,
+        .philosophy-quote::after {
+            content: '"';
+            font-size: 6rem;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            font-family: var(--font-secondary);
+            line-height: 1;
+        }
+
+        .philosophy-quote::before {
+            top: -10px;
+            left: -40px;
+        }
+
+        .philosophy-quote::after {
+            bottom: -40px;
+            right: -40px;
+        }
+
+        /* ===== LUXURY CTA ===== */
+        .footer-cta {
+            text-align: center;
+            padding: var(--space-xxl) 0;
+            background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-ivory) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.15) 0%, transparent 70%);
+            animation: pulseGlow 6s ease-in-out infinite;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            margin-top: var(--space-xl);
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+
+        /* ===== LUXURY FOOTER ===== */
+        .footer {
+            background: var(--gradient-obsidian);
+            color: var(--color-ivory);
+            padding: var(--space-xxl) 0 var(--space-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--color-emerald),
+                    var(--color-gold),
+                    transparent);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xxl);
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column-title {
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+            letter-spacing: 1px;
+            color: var(--color-platinum);
+            position: relative;
+            padding-bottom: var(--space-sm);
+        }
+
+        .footer-column-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: var(--gradient-emerald);
+            border-radius: var(--radius-full);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .footer-link {
+            color: var(--color-stone-light);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            font-size: 0.8125rem;
+        }
+
+        .footer-link:hover {
+            color: var(--color-emerald-light);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--color-stone);
+            font-size: 0.8125rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-stone-light);
+            text-decoration: none;
+            transition: all var(--transition-base);
+        }
+
+        .social-link:hover {
+            background: var(--color-emerald);
+            color: var(--color-ivory);
+            transform: translateY(-5px);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .balance-score-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+
+            .score-circle {
+                width: 350px;
+                height: 350px;
+            }
+
+            .score-value {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .section {
+                padding: var(--space-xl) 0;
+            }
+
+            .steps-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+
+            .steps-container::before {
+                display: none;
+            }
+
+            .step {
+                padding-top: 0;
+                display: flex;
+                align-items: center;
+                gap: var(--space-lg);
+                text-align: left;
+            }
+
+            .step-number {
+                position: static;
+                transform: none;
+                min-width: 70px;
+                min-height: 70px;
+                font-size: 1.75rem;
+            }
+
+            .tiers-container,
+            .competition-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .tier-card:nth-child(2) {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--space-sm);
+            }
+
+            .hero {
+                padding-top: 160px;
+            }
+
+            .nav-links,
+            .auth-buttons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .chart-container {
+                flex-direction: column;
+                height: auto;
+                align-items: stretch;
+            }
+
+            .chart-bar {
+                width: 100%;
+                height: 70px !important;
+                border-radius: var(--radius-md);
+            }
+
+            .bar-label,
+            .bar-percentage {
+                position: static;
+                padding: var(--space-xs);
+            }
+
+            .hero-headline {
+                font-size: 2.25rem;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--space-sm);
+            }
+
+            .hero-headline {
+                font-size: 2rem;
+            }
+
+            .section-headline {
+                font-size: 1.75rem;
+            }
+
+            .score-circle {
+                width: 280px;
+                height: 280px;
+            }
+
+            .score-value {
+                font-size: 3rem;
+            }
+
+            .step {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-md);
+            }
+        }
+
+        /* ===== ANIMATION CLASSES ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 {
+            transition-delay: 200ms;
+        }
+
+        .delay-2 {
+            transition-delay: 400ms;
+        }
+
+        .delay-3 {
+            transition-delay: 600ms;
+        }
+
+        .delay-4 {
+            transition-delay: 800ms;
+        }
+
+        .delay-5 {
+            transition-delay: 1000ms;
+        }
+
+        /* ===== MOBILE NAVIGATION ===== */
+        .mobile-nav {
+            position: fixed;
+            top: 90px;
+            left: 0;
+            right: 0;
+            background: rgba(250, 250, 249, 0.95);
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-lg);
+            display: none;
+            flex-direction: column;
+            gap: var(--space-lg);
+            box-shadow: var(--shadow-large);
+            z-index: 1999;
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: var(--backdrop-blur);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+
+        .mobile-nav.active {
+            display: flex;
+        }
+
+        .mobile-nav .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .mobile-nav .auth-buttons {
+            display: flex;
+            gap: var(--space-sm);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Premium Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-chart-pie logo-icon"></i>
+                    Savify
+                </a>
+                <nav class="nav">
+                    <div class="nav-links">
+                        <a href="#insight" class="nav-link">Insight</a>
+                        <a href="#balance" class="nav-link">Balance Score</a>
+                        <a href="#competition" class="nav-link">Competition</a>
+                        <a href="#status" class="nav-link">Status</a>
+                    </div>
+                    <div class="auth-buttons">
+                        <a href="#" class="btn btn-auth btn-login">Log in</a>
+                        <a href="#" class="btn btn-auth btn-signup">Sign up free</a>
+                    </div>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="nav-links">
+            <a href="#insight" class="nav-link">Insight</a>
+            <a href="#balance" class="nav-link">Balance Score</a>
+            <a href="#competition" class="nav-link">Competition</a>
+            <a href="#status" class="nav-link">Status</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="#" class="btn btn-auth btn-login">Log in</a>
+            <a href="#" class="btn btn-auth btn-signup">Sign up free</a>
+        </div>
+    </div>
+
+    <!-- Luxury Hero Section -->
+    <section class="hero section">
+        <div class="hero-background">
+            <div class="floating-orb orb-1"></div>
+            <div class="floating-orb orb-2"></div>
+            <div class="floating-orb orb-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-headline fade-in">Allocation Over Amount</h1>
+                <p class="hero-subheadline fade-in delay-1">
+                    Savify evaluates how you allocate money—not how much you spend. Your financial health isn't about
+                    saving more. It's about spending right.
+                </p>
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary fade-in delay-2">
+                        <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
+                        Check Your Balance Score
+                    </a>
+                    <p class="body-text fade-in delay-3">
+                        Takes 2 minutes • Completely private • Free forever
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Insight Section -->
+    <section id="insight" class="section section-light">
+        <div class="container">
+            <div class="section-title fade-in">A Different Perspective</div>
+            <h2 class="section-headline fade-in delay-1">Intelligent Allocation</h2>
+            <p class="large-text fade-in delay-2" style="max-width: 700px; margin: 0 auto var(--space-xl);">
+                Two people can earn the same amount, yet have completely different financial health. The key lies in how
+                you allocate, not how much you spend.
+            </p>
+
+            <div class="allocation-chart fade-in delay-3">
+                <div class="chart-container" id="allocationChart">
+                    <!-- Bars will be generated by JavaScript -->
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-necessities"></div>
+                        <span>Necessities</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-development"></div>
+                        <span>Development</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-enjoyment"></div>
+                        <span>Enjoyment</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-statements" style="margin-top: var(--space-xl); text-align: center;">
+                <p class="statement large-text fade-in delay-4"
+                    style="color: var(--color-emerald); margin-bottom: var(--space-sm);">
+                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                    Same income, smarter allocation
+                </p>
+                <p class="statement large-text fade-in delay-5" style="color: var(--color-gold);">
+                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                    Better balance, better life
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title fade-in">Simple Weekly Rhythm</div>
+            <h2 class="section-headline fade-in delay-1">How Savify Works</h2>
+            <p class="large-text fade-in delay-2" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                A seamless process that fits into your weekly routine, not disrupts it.
+            </p>
+
+            <div class="steps-container">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Connect Securely</h3>
+                        <p class="body-text">Link your payment methods with bank-level security. We analyze patterns,
+                            not personal details. Your data stays private, always.</p>
+                    </div>
+                </div>
+                <div class="step fade-in delay-1">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Get Your Score</h3>
+                        <p class="body-text">Every Sunday, receive your Balance Score based on intelligent allocation
+                            across three pillars. Watch your financial intelligence grow.</p>
+                    </div>
+                </div>
+                <div class="step fade-in delay-2">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">See Insights</h3>
+                        <p class="body-text">Understand your spending personality and receive actionable insights for
+                            improvement. Learn, adapt, and master your finances.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Balance Score Section -->
+    <section id="balance" class="section section-light">
+        <div class="container">
+            <div class="balance-score-container">
+                <div class="score-display fade-in">
+                    <div class="score-circle">
+                        <div class="circle-bg">
+                            <div class="score-needle"></div>
+                        </div>
+                        <div class="circle-inner">
+                            <div>
+                                <div class="score-value" id="scoreValue">0</div>
+                                <div class="score-label">Balance Score</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in delay-1">
+                    <div class="section-title">A Fair Measure</div>
+                    <h2 class="section-headline">Your Intelligent Score</h2>
+                    <p class="large-text">
+                        A dynamic score between 0–100 that evolves with your spending habits.
+                        It measures how well you balance necessities, growth, and enjoyment—regardless of income level.
+                    </p>
+                    <div style="margin-top: var(--space-lg);">
+                        <div
+                            style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                            <div
+                                style="width: 20px; height: 20px; background: var(--gradient-emerald); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                            </div>
+                            <span class="body-text">Income-agnostic scoring for true fairness</span>
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                            <div
+                                style="width: 20px; height: 20px; background: var(--gradient-emerald); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                            </div>
+                            <span class="body-text">Weekly updates to track your progress</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                            <div
+                                style="width: 20px; height: 20px; background: var(--gradient-emerald); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check" style="color: white; font-size: 10px;"></i>
+                            </div>
+                            <span class="body-text">Personalized insights for smarter decisions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition Section -->
+    <section id="competition" class="section">
+        <div class="container">
+            <div class="section-title fade-in">Healthy Rivalry</div>
+            <h2 class="section-headline fade-in delay-1">Compete Without Comparison</h2>
+            <p class="large-text fade-in delay-2" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                Your score finds meaning in community. Compete fairly, improve collectively.
+            </p>
+
+            <div class="competition-grid">
+                <div class="competition-card fade-in">
+                    <div class="competition-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="step-title">Individual</h3>
+                    <p class="body-text">Track your personal progress and weekly improvements in allocation balance.
+                        Master your own financial journey.</p>
+                </div>
+                <div class="competition-card fade-in delay-1">
+                    <div class="competition-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="step-title">Hostel vs Hostel</h3>
+                    <p class="body-text">Friendly competition between floors and hostels. Bragging rights for the most
+                        balanced community. Build financial camaraderie.</p>
+                </div>
+                <div class="competition-card fade-in delay-2">
+                    <div class="competition-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3 class="step-title">College vs College</h3>
+                    <p class="body-text">Campus-wide competition. See which institution fosters the most financially
+                        intelligent students. Elevate your college's reputation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section id="status" class="section section-light">
+        <div class="container">
+            <div class="section-title fade-in">Recognition, Not Rewards</div>
+            <h2 class="section-headline fade-in delay-1">Earn Access Through Balance</h2>
+            <p class="large-text fade-in delay-2" style="max-width: 600px; margin: 0 auto var(--space-xl);">
+                As your Balance Score improves, unlock deeper insights and recognition that matter.
+            </p>
+
+            <div class="tiers-container">
+                <div class="tier-card fade-in">
+                    <div class="tier-badge">60–74</div>
+                    <h3 class="tier-title">Balanced</h3>
+                    <p class="tier-description">Solid allocation habits</p>
+                    <ul class="tier-features">
+                        <li>
+                            <i class="fas fa-check"
+                                style="color: var(--color-emerald); margin-right: var(--space-sm);"></i>
+                            Weekly insights & trends
+                        </li>
+                        <li>
+                            <i class="fas fa-check"
+                                style="color: var(--color-emerald); margin-right: var(--space-sm);"></i>
+                            Basic analytics dashboard
+                        </li>
+                        <li>
+                            <i class="fas fa-check"
+                                style="color: var(--color-emerald); margin-right: var(--space-sm);"></i>
+                            Personal progress tracking
+                        </li>
+                    </ul>
+                </div>
+                <div class="tier-card fade-in delay-1">
+                    <div class="tier-badge">75–89</div>
+                    <h3 class="tier-title">Savvy Spender</h3>
+                    <p class="tier-description">Excellent allocation balance</p>
+                    <ul class="tier-features">
+                        <li>
+                            <i class="fas fa-star" style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            Advanced analytics & forecasts
+                        </li>
+                        <li>
+                            <i class="fas fa-star" style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            College & hostel rankings
+                        </li>
+                        <li>
+                            <i class="fas fa-star" style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            Premium profile badge
+                        </li>
+                    </ul>
+                </div>
+                <div class="tier-card fade-in delay-2">
+                    <div class="tier-badge">90+</div>
+                    <h3 class="tier-title">Equilibrium Master</h3>
+                    <p class="tier-description">Exceptional spending intelligence</p>
+                    <ul class="tier-features">
+                        <li>
+                            <i class="fas fa-crown"
+                                style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            Predictive insights & AI guidance
+                        </li>
+                        <li>
+                            <i class="fas fa-crown"
+                                style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            Featured recognition & interviews
+                        </li>
+                        <li>
+                            <i class="fas fa-crown"
+                                style="color: var(--color-gold); margin-right: var(--space-sm);"></i>
+                            Early access to new features
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="section section-dark philosophy">
+        <div class="philosophy-bg"></div>
+        <div class="container">
+            <div class="philosophy-content">
+                <div class="section-title section-title-light fade-in">Our Philosophy</div>
+                <div class="quote philosophy-quote fade-in delay-1">
+                    "Savify doesn't tell you to spend less.<br>It helps you spend with intent."
+                </div>
+                <p class="large-text large-text-light fade-in delay-2"
+                    style="margin-top: var(--space-lg); max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Financial intelligence isn't about restriction—it's about making every rupee count toward a balanced
+                    life. We believe in empowering you with insights, not imposing limits.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="footer-cta">
+        <div class="cta-glow"></div>
+        <div class="container">
+            <h2 class="section-headline fade-in">Ready to See Your Balance?</h2>
+            <p class="large-text fade-in delay-1" style="max-width: 600px; margin: var(--space-xl) auto;">
+                Join thousands of students who are redefining financial intelligence.
+                Discover your Balance Score in minutes—no strings attached.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary fade-in delay-2">
+                    <i class="fas fa-chart-line" style="margin-right: 12px;"></i>
+                    Get Your Free Score
+                </a>
+                <a href="#" class="btn btn-secondary fade-in delay-3">
+                    <i class="fas fa-play-circle" style="margin-right: 12px;"></i>
+                    Watch Demo
+                </a>
+            </div>
+            <p class="body-text fade-in delay-4" style="margin-top: var(--space-lg);">
+                No credit card required • 100% private • Takes 2 minutes • Free forever
+            </p>
+        </div>
+    </section>
+
+    <!-- Luxury Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <a href="#" class="logo"
+                        style="color: var(--color-ivory); margin-bottom: var(--space-lg); display: block;">
+                        <i class="fas fa-chart-pie" style="color: var(--color-emerald-light);"></i>
+                        Savify
+                    </a>
+                    <p style="color: var(--color-stone-light); max-width: 300px; font-size: 0.9375rem;">
+                        Intelligent allocation for balanced living. Redefining financial wellness for the modern
+                        student.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <div class="footer-column-title">Product</div>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Features</a>
+                        <a href="#" class="footer-link">Balance Score</a>
+                        <a href="#" class="footer-link">Competitions</a>
+                        <a href="#" class="footer-link">Status Tiers</a>
+                        <a href="#" class="footer-link">Pricing</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <div class="footer-column-title">Company</div>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">About Us</a>
+                        <a href="#" class="footer-link">Blog</a>
+                        <a href="#" class="footer-link">Careers</a>
+                        <a href="#" class="footer-link">Press</a>
+                        <a href="#" class="footer-link">Partners</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <div class="footer-column-title">Legal</div>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Privacy Policy</a>
+                        <a href="#" class="footer-link">Terms of Service</a>
+                        <a href="#" class="footer-link">Security</a>
+                        <a href="#" class="footer-link">GDPR</a>
+                        <a href="#" class="footer-link">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Savify. All rights reserved.</p>
+                <p style="margin-top: var(--space-xs); font-size: 0.75rem; color: var(--color-stone);">
+                    Made with <i class="fas fa-heart" style="color: var(--color-emerald);"></i> for students worldwide
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ===== MOBILE MENU TOGGLE =====
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const header = document.getElementById('header');
+
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileNav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileNav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // ===== HEADER SCROLL EFFECT =====
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ===== INTERACTIVE ALLOCATION CHART =====
+        const allocationChart = document.getElementById('allocationChart');
+        const allocationData = [
+            {
+                label: 'Optimal Balance',
+                necessities: 50,
+                development: 30,
+                enjoyment: 20,
+                total: 100,
+                color: 'var(--gradient-emerald)'
+            },
+            {
+                label: 'Average Student',
+                necessities: 40,
+                development: 25,
+                enjoyment: 35,
+                total: 100,
+                color: 'var(--gradient-gold)'
+            },
+            {
+                label: 'Needs Improvement',
+                necessities: 30,
+                development: 15,
+                enjoyment: 55,
+                total: 100,
+                color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)'
+            }
+        ];
+
+        // Clear any existing content
+        allocationChart.innerHTML = '';
+
+        // Replace your existing allocationData.forEach loop with this:
+
+        allocationData.forEach((data, index) => {
+            // 1. Create the container
+            const barContainer = document.createElement('div');
+            barContainer.className = 'chart-bar-container'; // Uses the new CSS class
+
+            // 2. Create elements
+            const percentage = document.createElement('div');
+            percentage.className = 'bar-percentage';
+            percentage.textContent = `${data.total}%`;
+
+            const bar = document.createElement('div');
+            bar.className = 'chart-bar';
+            bar.style.background = data.color;
+            bar.style.width = '60px'; // Fixed width for cleaner look
+            bar.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
+            bar.style.height = '0px'; // Start at 0 for animation
+
+            const label = document.createElement('div');
+            label.className = 'bar-label';
+            label.textContent = data.label;
+
+            // 3. Append in correct visual order
+            barContainer.appendChild(percentage); // Top
+            barContainer.appendChild(bar);        // Middle
+            barContainer.appendChild(label);      // Bottom
+
+            allocationChart.appendChild(barContainer);
+
+            // 4. Animate width/height
+            setTimeout(() => {
+                // Calculate height (max 200px)
+                const targetHeight = (data.total / 100) * 200;
+                bar.style.height = `${targetHeight}px`;
+                bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
+            }, 100 + (index * 100)); // Reduced delay for faster loading
+        });
+        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Animate balance score when in view
+                    if (entry.target.classList.contains('score-display')) {
+                        animateBalanceScore();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== ANIMATED BALANCE SCORE =====
+        function animateBalanceScore() {
+            const scoreElement = document.getElementById('scoreValue');
+            const targetScore = 86;
+            let currentScore = 0;
+            const duration = 2500; // ms
+            const increment = targetScore / (duration / 16);
+
+            const timer = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(timer);
+                }
+                scoreElement.textContent = Math.floor(currentScore);
+            }, 16);
+        }
+
+        // ===== SMOOTH SCROLLING =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ===== PARALLAX BACKGROUND EFFECT =====
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+
+            // Parallax for orbs
+            const orbs = document.querySelectorAll('.floating-orb');
+            orbs.forEach((orb, index) => {
+                const speed = 0.03 + (index * 0.01);
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // ===== GLOW EFFECT ON INTERACTIVE ELEMENTS =====
+        const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
+            });
+
+            element.addEventListener('mouseleave', () => {
+                if (element.classList.contains('btn-primary')) {
+                    element.style.boxShadow = 'var(--shadow-glow)';
+                } else {
+                    element.style.boxShadow = '';
+                }
+            });
+        });
+
+        // ===== RANDOM GLOW PULSES =====
+        setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * interactiveElements.length);
+            const randomElement = interactiveElements[randomIndex];
+
+            const originalBoxShadow = randomElement.style.boxShadow;
+            randomElement.style.boxShadow = '0 0 40px rgba(16, 185, 129, 0.6)';
+
+            setTimeout(() => {
+                randomElement.style.boxShadow = originalBoxShadow;
+            }, 300);
+        }, 3000);
+
+        // ===== INITIALIZE ON LOAD =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add visible class to hero elements immediately
+            document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('visible');
+                }, 200 * index);
+            });
+
+            // Initialize header
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>
