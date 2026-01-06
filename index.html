@@ -11,9 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
-    <!-- Supabase JS SDK -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -314,9 +313,9 @@
                     var(--color-gold) 70%,
                     var(--color-charcoal) 100%);
             background-size: 300% auto;
-            background-clip: text;
             -webkit-background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             animation: gradientShift 8s ease infinite;
             font-family: var(--font-secondary);
             font-weight: 600;
@@ -399,9 +398,9 @@
             letter-spacing: -0.03em;
             background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-gold) 100%);
             background-size: 200% auto;
-            background-clip: text;
             -webkit-background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             animation: gradientShift 8s ease infinite;
         }
 
@@ -496,117 +495,6 @@
         .btn-signup:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
-        }
-
-        /* ===== PROFILE ICON STYLES ===== */
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: var(--radius-full);
-            transition: all var(--transition-fast);
-            position: relative;
-        }
-
-        .user-profile:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .profile-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--gradient-emerald);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-ivory);
-            font-weight: var(--font-weight-bold);
-            font-size: 0.875rem;
-            border: 2px solid var(--color-ivory);
-            box-shadow: var(--shadow-subtle);
-            overflow: hidden;
-        }
-
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-name {
-            font-size: 0.8125rem;
-            font-weight: var(--font-weight-medium);
-            color: var(--color-obsidian);
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .user-profile .fa-chevron-down {
-            font-size: 0.75rem;
-            color: var(--color-stone);
-            transition: transform var(--transition-fast);
-        }
-
-        .user-profile:hover .fa-chevron-down {
-            transform: rotate(180deg);
-        }
-
-        .profile-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--color-ivory);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-large);
-            min-width: 200px;
-            display: none;
-            z-index: 1000;
-            margin-top: 10px;
-            overflow: hidden;
-            animation: slideUp 0.2s ease;
-        }
-
-        .profile-dropdown.active {
-            display: block;
-        }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1rem;
-            color: var(--color-graphite);
-            text-decoration: none;
-            transition: all var(--transition-fast);
-            font-size: 0.875rem;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background: var(--color-cream);
-            color: var(--color-obsidian);
-            padding-left: 1.25rem;
-        }
-
-        .dropdown-item i {
-            width: 20px;
-            color: var(--color-emerald);
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background: var(--color-border);
-            margin: 0.25rem 0;
         }
 
         /* ===== AUTH MODAL ===== */
@@ -1159,9 +1047,9 @@
             font-size: 4.5rem;
             font-weight: var(--font-weight-bold);
             background: linear-gradient(135deg, var(--color-emerald), var(--color-gold));
-            background-clip: text;
             -webkit-background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .score-label {
@@ -1809,42 +1697,8 @@
                         <a href="#status" class="nav-link">Status</a>
                     </div>
                     <div class="auth-buttons" id="authButtons">
-                        <!-- Initially shows login/signup buttons -->
                         <a href="#" class="btn btn-auth btn-login desktop-login-btn">Log in</a>
                         <a href="#" class="btn btn-auth btn-signup desktop-signup-btn">Sign up free</a>
-                        
-                        <!-- Hidden initially, shown when logged in -->
-                        <div class="user-profile" id="userProfile" style="display: none;">
-                            <div class="profile-avatar" id="profileAvatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <span class="profile-name" id="profileName">User</span>
-                            <i class="fas fa-chevron-down"></i>
-                            <div class="profile-dropdown" id="profileDropdown">
-                                <a href="https://savifytrial.vercel.app/dashboard.html" class="dropdown-item">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    Dashboard
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item">
-                                    <i class="fas fa-user-circle"></i>
-                                    My Profile
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <i class="fas fa-chart-line"></i>
-                                    Balance Score
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <i class="fas fa-trophy"></i>
-                                    Achievements
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item logout-btn">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </nav>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1862,27 +1716,8 @@
             <a href="#status" class="nav-link">Status</a>
         </div>
         <div class="auth-buttons" id="mobileAuthButtons">
-            <!-- Initially shows login/signup buttons -->
             <a href="#" class="btn btn-auth btn-login mobile-login-btn">Log in</a>
             <a href="#" class="btn btn-auth btn-signup mobile-signup-btn">Sign up free</a>
-            
-            <!-- Hidden initially, shown when logged in -->
-            <div class="user-profile" id="mobileUserProfile" style="display: none; margin-top: 1rem;">
-                <div class="profile-avatar" id="mobileProfileAvatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <span class="profile-name" id="mobileProfileName">User</span>
-                <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                    <a href="https://savifytrial.vercel.app/dashboard.html" class="btn btn-auth" style="justify-content: center;">
-                        <i class="fas fa-tachometer-alt"></i>
-                        Dashboard
-                    </a>
-                    <a href="#" class="btn btn-auth mobile-logout-btn" style="justify-content: center;">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Logout
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1923,8 +1758,7 @@
 
             <div class="allocation-chart fade-in delay-3">
                 <div class="chart-container" id="allocationChart">
-                    <!-- Chart will be generated by JavaScript -->
-                </div>
+                    </div>
                 <div class="chart-legend">
                     <div class="legend-item">
                         <div class="legend-color legend-necessities"></div>
@@ -2291,198 +2125,301 @@
         </div>
     </div>
 
-<script>
-    // 1. SAFE ICON INITIALIZATION
-    function initIcons() {
-        if (typeof lucide !== 'undefined' && lucide.createIcons) {
-            lucide.createIcons();
-        } else {
-            // If lucide fails to load, we just ignore it so the site doesn't crash
-            console.log('Lucide icons skipped (using FontAwesome)');
-        }
-    }
-
-    // 2. MAIN LOGIC
-    document.addEventListener('DOMContentLoaded', () => {
-        initIcons();
-
-        // --- A. MOBILE MENU LOGIC ---
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        const header = document.getElementById('header');
-
-        if (mobileMenuBtn && mobileNav) {
-            mobileMenuBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                mobileNav.classList.toggle('active');
-                mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
-                    ? '<i class="fas fa-times"></i>'
-                    : '<i class="fas fa-bars"></i>';
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                    mobileNav.classList.remove('active');
-                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-            });
-        }
-
-        // --- B. HEADER SCROLL EFFECT ---
-        window.addEventListener('scroll', () => {
-            if (header) {
-                if (window.scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-            }
-        });
-
-        // --- C. ALLOCATION CHART ANIMATION ---
-        const allocationChart = document.getElementById('allocationChart');
-        if (allocationChart) {
-            const allocationData = [
-                { label: 'Optimal Balance', total: 100, color: 'var(--gradient-emerald)' },
-                { label: 'Average Student', total: 100, color: 'var(--gradient-gold)' },
-                { label: 'Needs Improvement', total: 100, color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)' }
-            ];
-            allocationChart.innerHTML = '';
-            allocationData.forEach((data, index) => {
-                const barContainer = document.createElement('div');
-                barContainer.className = 'chart-bar-container';
-                barContainer.innerHTML = `
-                    <div class="bar-percentage">${data.total}%</div>
-                    <div class="chart-bar" style="background: ${data.color}; width: 60px; height: 0; border-radius: var(--radius-md) var(--radius-md) 0 0;"></div>
-                    <div class="bar-label">${data.label}</div>
-                `;
-                allocationChart.appendChild(barContainer);
-                setTimeout(() => {
-                    const bar = barContainer.querySelector('.chart-bar');
-                    bar.style.height = `${(data.total / 100) * 200}px`;
-                    bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
-                }, 100 + (index * 100));
-            });
-        }
-
-        // --- D. FADE IN ANIMATION ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    if (entry.target.classList.contains('score-display')) animateBalanceScore();
-                }
-            });
-        });
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-        function animateBalanceScore() {
-            const scoreElement = document.getElementById('scoreValue');
-            if (!scoreElement || scoreElement.getAttribute('data-animated') === 'true') return;
+    <script>
+        // 1. SAFE LUCIDE INITIALIZATION
+        // We ensure the HTML is loaded first before running any scripts
+        document.addEventListener('DOMContentLoaded', () => {
             
-            let currentScore = 0;
-            const targetScore = 86;
-            const timer = setInterval(() => {
-                currentScore += 2; // Speed up animation slightly
-                if (currentScore >= targetScore) {
-                    currentScore = targetScore;
-                    clearInterval(timer);
-                    scoreElement.setAttribute('data-animated', 'true');
+            // Check for Lucide before initializing
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                lucide.createIcons();
+            } else {
+                console.warn('Lucide icons not loaded immediately.');
+                // Retry slightly later if needed
+                setTimeout(() => {
+                    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                        lucide.createIcons();
+                    }
+                }, 1000);
+            }
+
+            // ===== MOBILE MENU TOGGLE =====
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const header = document.getElementById('header');
+
+            if (mobileMenuBtn && mobileNav) {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
+                        ? '<i class="fas fa-times"></i>'
+                        : '<i class="fas fa-bars"></i>';
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileNav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                });
+
+                // Close mobile menu when clicking a link
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    });
+                });
+            }
+
+            // ===== HEADER SCROLL EFFECT =====
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
-                scoreElement.textContent = currentScore;
-            }, 30);
-        }
+            });
 
-        // --- E. NUCLEAR AUTH MODAL LOGIC (THE FIX) ---
-        const authModal = document.getElementById('authModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const googleBtn = document.getElementById('googleSignInBtn');
+            // ===== INTERACTIVE ALLOCATION CHART =====
+            const allocationChart = document.getElementById('allocationChart');
+            if (allocationChart) {
+                const allocationData = [
+                    {
+                        label: 'Optimal Balance',
+                        necessities: 50,
+                        development: 30,
+                        enjoyment: 20,
+                        total: 100,
+                        color: 'var(--gradient-emerald)'
+                    },
+                    {
+                        label: 'Average Student',
+                        necessities: 40,
+                        development: 25,
+                        enjoyment: 35,
+                        total: 100,
+                        color: 'var(--gradient-gold)'
+                    },
+                    {
+                        label: 'Needs Improvement',
+                        necessities: 30,
+                        development: 15,
+                        enjoyment: 55,
+                        total: 100,
+                        color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)'
+                    }
+                ];
 
-        // 1. Select EVERY button that should trigger the modal
-        // We include .btn-auth (header), .get-started-btn (hero), and .cta-get-started-btn (footer)
-        const allAuthButtons = document.querySelectorAll('.btn-auth, .get-started-btn, .cta-get-started-btn');
+                // Clear any existing content
+                allocationChart.innerHTML = '';
 
-        if (authModal) {
-            allAuthButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Stop page jump
-                    console.log("Button clicked!"); // Check your console if it fails
-                    
-                    // Force the modal to show using direct styles
-                    authModal.style.display = 'flex';
-                    // Small timeout allows the browser to realize display changed before fading in
+                allocationData.forEach((data, index) => {
+                    const barContainer = document.createElement('div');
+                    barContainer.className = 'chart-bar-container';
+
+                    const percentage = document.createElement('div');
+                    percentage.className = 'bar-percentage';
+                    percentage.textContent = `${data.total}%`;
+
+                    const bar = document.createElement('div');
+                    bar.className = 'chart-bar';
+                    bar.style.background = data.color;
+                    bar.style.width = '60px';
+                    bar.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
+                    bar.style.height = '0px';
+
+                    const label = document.createElement('div');
+                    label.className = 'bar-label';
+                    label.textContent = data.label;
+
+                    barContainer.appendChild(percentage);
+                    barContainer.appendChild(bar);
+                    barContainer.appendChild(label);
+
+                    allocationChart.appendChild(barContainer);
+
                     setTimeout(() => {
-                        authModal.classList.add('active');
-                        authModal.style.opacity = '1'; 
-                    }, 10);
-                    
-                    document.body.style.overflow = 'hidden';
+                        const targetHeight = (data.total / 100) * 200;
+                        bar.style.height = `${targetHeight}px`;
+                        bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, 100 + (index * 100));
+                });
+            }
+
+            // ===== INTERSECTION OBSERVER =====
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('score-display')) {
+                            animateBalanceScore();
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // ===== ANIMATED BALANCE SCORE =====
+            function animateBalanceScore() {
+                const scoreElement = document.getElementById('scoreValue');
+                if(!scoreElement) return;
+                
+                const targetScore = 86;
+                let currentScore = 0;
+                const duration = 2500; 
+                const increment = targetScore / (duration / 16);
+
+                if(scoreElement.getAttribute('data-animated') === 'true') return;
+
+                const timer = setInterval(() => {
+                    currentScore += increment;
+                    if (currentScore >= targetScore) {
+                        currentScore = targetScore;
+                        clearInterval(timer);
+                        scoreElement.setAttribute('data-animated', 'true');
+                    }
+                    scoreElement.textContent = Math.floor(currentScore);
+                }, 16);
+            }
+
+            // ===== SMOOTH SCROLLING =====
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             });
 
-            // Close Logic
-            function closeAuthModal() {
-                authModal.classList.remove('active');
-                authModal.style.opacity = '0';
-                setTimeout(() => {
-                    authModal.style.display = 'none';
-                }, 300); // Wait for transition
-                document.body.style.overflow = '';
+            // ===== AUTH MODAL LOGIC (FIXED & EXTENDED) =====
+            const authModal = document.getElementById('authModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            
+            // SELECT ALL BUTTONS THAT SHOULD OPEN THE MODAL
+            // This includes Header buttons, Mobile Menu buttons, Hero CTA, and Footer CTA
+            const authButtons = document.querySelectorAll('.btn-auth, .get-started-btn, .cta-get-started-btn');
+
+            if (authModal && closeModalBtn) {
+                // Open Modal
+                authButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        authModal.classList.add('active');
+                        authModal.style.display = 'flex'; 
+                        document.body.style.overflow = 'hidden';
+                    });
+                });
+
+                // Close Modal Function
+                function closeAuthModal() {
+                    authModal.classList.remove('active');
+                    setTimeout(() => {
+                         if(!authModal.classList.contains('active')) {
+                            // authModal.style.display = 'none'; 
+                         }
+                    }, 300);
+                    document.body.style.overflow = '';
+                }
+
+                // Close on X click
+                closeModalBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeAuthModal();
+                });
+
+                // Close on background click
+                authModal.addEventListener('click', (e) => {
+                    if (e.target === authModal) {
+                        closeAuthModal();
+                    }
+                });
+
+                // Close on Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && authModal.classList.contains('active')) {
+                        closeAuthModal();
+                    }
+                });
+            } else {
+                console.error("Auth modal elements not found in DOM");
             }
 
-            if (closeModalBtn) closeModalBtn.addEventListener('click', closeAuthModal);
-            
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) closeAuthModal();
-            });
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeAuthModal();
-            });
-        }
-
-        // --- F. GOOGLE BUTTON CLICK ---
-        if (googleBtn) {
-            googleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signInWithGoogle();
-            });
-        }
-
-        // --- G. SMOOTH SCROLL ---
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#' || !targetId.startsWith('#')) return; // Ignore non-anchor links
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
+            // ===== GOOGLE SIGN IN LOGIC =====
+            const googleBtn = document.getElementById('googleSignInBtn');
+            if (googleBtn) {
+                googleBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
+                    signInWithGoogle();
+                });
+            }
+
+            // Trigger initial fade-ins
+            document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('visible');
+                }, 200 * index);
+            });
+
+            if (window.scrollY > 50 && header) {
+                header.classList.add('scrolled');
+            }
+        });
+
+        // ===== PARALLAX (Outside DOMContentLoaded) =====
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+
+            const orbs = document.querySelectorAll('.floating-orb');
+            orbs.forEach((orb, index) => {
+                const speed = 0.03 + (index * 0.01);
+                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // ===== GLOW EFFECT =====
+        const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
+            });
+
+            element.addEventListener('mouseleave', () => {
+                if (element.classList.contains('btn-primary')) {
+                    element.style.boxShadow = 'var(--shadow-glow)';
+                } else {
+                    element.style.boxShadow = '';
                 }
             });
         });
 
-        // Trigger initial hero animations
-        document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
-            setTimeout(() => el.classList.add('visible'), 200 * index);
-        });
-    });
-
-    // --- H. PARALLAX EFFECT ---
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroBg = document.querySelector('.hero-background');
-        if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.05}px)`;
-    });
-
-    // --- I. PLACEHOLDER SIGN IN ---
-    async function signInWithGoogle() {
-        console.log("Google Sign In clicked");
-        alert("Google Sign-In is ready to be connected to Supabase!");
-    }
-</script>
-    
+        // ===== SUPABASE PLACEHOLDER =====
+        async function signInWithGoogle() {
+            console.log("Initiating Google Sign-In...");
+            alert("This button is connected! Configure Supabase keys to continue.");
+        }
+    </script>
 </body>
 </html>
-
-
