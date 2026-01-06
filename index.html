@@ -2292,31 +2292,26 @@
     </div>
 
 <script>
-    // 1. SAFE LUCIDE INITIALIZATION
-    // We wrap this in a check to ensure the library loaded
+    // 1. SAFE ICON INITIALIZATION
     function initIcons() {
         if (typeof lucide !== 'undefined' && lucide.createIcons) {
             lucide.createIcons();
         } else {
-            console.warn('Lucide icons not loaded yet, retrying...');
-            // Optional: Retry after a moment if network is slow
-            setTimeout(initIcons, 500); 
+            // If lucide fails to load, we just ignore it so the site doesn't crash
+            console.log('Lucide icons skipped (using FontAwesome)');
         }
     }
 
-    // 2. MAIN EXECUTION WRAPPER
-    // Ensure HTML is fully ready before attaching listeners
+    // 2. MAIN LOGIC
     document.addEventListener('DOMContentLoaded', () => {
-        
-        // Initialize icons
         initIcons();
 
-        // ===== MOBILE MENU TOGGLE =====
+        // --- A. MOBILE MENU LOGIC ---
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileNav = document.getElementById('mobileNav');
         const header = document.getElementById('header');
 
-        if (mobileMenuBtn && mobileNav) { // Safety check
+        if (mobileMenuBtn && mobileNav) {
             mobileMenuBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 mobileNav.classList.toggle('active');
@@ -2325,152 +2320,140 @@
                     : '<i class="fas fa-bars"></i>';
             });
 
-            // Close mobile menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                     mobileNav.classList.remove('active');
                     mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
-
-            // Close mobile menu when clicking a link
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('active');
-                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                });
-            });
         }
 
-        // ===== HEADER SCROLL EFFECT =====
+        // --- B. HEADER SCROLL EFFECT ---
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (header) {
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
             }
         });
 
-        // ===== INTERACTIVE ALLOCATION CHART =====
+        // --- C. ALLOCATION CHART ANIMATION ---
         const allocationChart = document.getElementById('allocationChart');
         if (allocationChart) {
             const allocationData = [
-                {
-                    label: 'Optimal Balance',
-                    necessities: 50,
-                    development: 30,
-                    enjoyment: 20,
-                    total: 100,
-                    color: 'var(--gradient-emerald)'
-                },
-                {
-                    label: 'Average Student',
-                    necessities: 40,
-                    development: 25,
-                    enjoyment: 35,
-                    total: 100,
-                    color: 'var(--gradient-gold)'
-                },
-                {
-                    label: 'Needs Improvement',
-                    necessities: 30,
-                    development: 15,
-                    enjoyment: 55,
-                    total: 100,
-                    color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)'
-                }
+                { label: 'Optimal Balance', total: 100, color: 'var(--gradient-emerald)' },
+                { label: 'Average Student', total: 100, color: 'var(--gradient-gold)' },
+                { label: 'Needs Improvement', total: 100, color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)' }
             ];
-
-            // Clear any existing content
             allocationChart.innerHTML = '';
-
             allocationData.forEach((data, index) => {
                 const barContainer = document.createElement('div');
                 barContainer.className = 'chart-bar-container';
-
-                const percentage = document.createElement('div');
-                percentage.className = 'bar-percentage';
-                percentage.textContent = `${data.total}%`;
-
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.background = data.color;
-                bar.style.width = '60px';
-                bar.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
-                bar.style.height = '0px';
-
-                const label = document.createElement('div');
-                label.className = 'bar-label';
-                label.textContent = data.label;
-
-                barContainer.appendChild(percentage);
-                barContainer.appendChild(bar);
-                barContainer.appendChild(label);
-
+                barContainer.innerHTML = `
+                    <div class="bar-percentage">${data.total}%</div>
+                    <div class="chart-bar" style="background: ${data.color}; width: 60px; height: 0; border-radius: var(--radius-md) var(--radius-md) 0 0;"></div>
+                    <div class="bar-label">${data.label}</div>
+                `;
                 allocationChart.appendChild(barContainer);
-
                 setTimeout(() => {
-                    const targetHeight = (data.total / 100) * 200;
-                    bar.style.height = `${targetHeight}px`;
+                    const bar = barContainer.querySelector('.chart-bar');
+                    bar.style.height = `${(data.total / 100) * 200}px`;
                     bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
                 }, 100 + (index * 100));
             });
         }
 
-        // ===== INTERSECTION OBSERVER =====
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
+        // --- D. FADE IN ANIMATION ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    if (entry.target.classList.contains('score-display')) {
-                        animateBalanceScore();
-                    }
+                    if (entry.target.classList.contains('score-display')) animateBalanceScore();
                 }
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
         });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // ===== ANIMATED BALANCE SCORE =====
         function animateBalanceScore() {
             const scoreElement = document.getElementById('scoreValue');
-            if(!scoreElement) return;
+            if (!scoreElement || scoreElement.getAttribute('data-animated') === 'true') return;
             
-            const targetScore = 86;
             let currentScore = 0;
-            const duration = 2500; 
-            const increment = targetScore / (duration / 16);
-            let hasRun = false;
-
-            // Simple check to ensure we don't over-animate
-            if(scoreElement.getAttribute('data-animated') === 'true') return;
-
+            const targetScore = 86;
             const timer = setInterval(() => {
-                currentScore += increment;
+                currentScore += 2; // Speed up animation slightly
                 if (currentScore >= targetScore) {
                     currentScore = targetScore;
                     clearInterval(timer);
                     scoreElement.setAttribute('data-animated', 'true');
                 }
-                scoreElement.textContent = Math.floor(currentScore);
-            }, 16);
+                scoreElement.textContent = currentScore;
+            }, 30);
         }
 
-        // ===== SMOOTH SCROLLING =====
+        // --- E. NUCLEAR AUTH MODAL LOGIC (THE FIX) ---
+        const authModal = document.getElementById('authModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const googleBtn = document.getElementById('googleSignInBtn');
+
+        // 1. Select EVERY button that should trigger the modal
+        // We include .btn-auth (header), .get-started-btn (hero), and .cta-get-started-btn (footer)
+        const allAuthButtons = document.querySelectorAll('.btn-auth, .get-started-btn, .cta-get-started-btn');
+
+        if (authModal) {
+            allAuthButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Stop page jump
+                    console.log("Button clicked!"); // Check your console if it fails
+                    
+                    // Force the modal to show using direct styles
+                    authModal.style.display = 'flex';
+                    // Small timeout allows the browser to realize display changed before fading in
+                    setTimeout(() => {
+                        authModal.classList.add('active');
+                        authModal.style.opacity = '1'; 
+                    }, 10);
+                    
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close Logic
+            function closeAuthModal() {
+                authModal.classList.remove('active');
+                authModal.style.opacity = '0';
+                setTimeout(() => {
+                    authModal.style.display = 'none';
+                }, 300); // Wait for transition
+                document.body.style.overflow = '';
+            }
+
+            if (closeModalBtn) closeModalBtn.addEventListener('click', closeAuthModal);
+            
+            authModal.addEventListener('click', (e) => {
+                if (e.target === authModal) closeAuthModal();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeAuthModal();
+            });
+        }
+
+        // --- F. GOOGLE BUTTON CLICK ---
+        if (googleBtn) {
+            googleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signInWithGoogle();
+            });
+        }
+
+        // --- G. SMOOTH SCROLL ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
                 const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                if (targetId === '#' || !targetId.startsWith('#')) return; // Ignore non-anchor links
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
+                    e.preventDefault();
                     window.scrollTo({
                         top: targetElement.offsetTop - 100,
                         behavior: 'smooth'
@@ -2479,108 +2462,27 @@
             });
         });
 
-        // ===== AUTH MODAL LOGIC (THE FIX) =====
-        const authModal = document.getElementById('authModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const authButtons = document.querySelectorAll('.btn-auth');
-
-        // Check if elements exist before adding listeners
-        if (authModal && closeModalBtn) {
-            // Open Modal
-            authButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault(); // This is crucial
-                    authModal.classList.add('active');
-                    authModal.style.display = 'flex'; // Force display flex just in case
-                    document.body.style.overflow = 'hidden';
-                });
-            });
-
-            // Close Modal Function
-            function closeAuthModal() {
-                authModal.classList.remove('active');
-                setTimeout(() => {
-                     // Wait for transition before hiding, strictly optional
-                     if(!authModal.classList.contains('active')) {
-                        // authModal.style.display = 'none'; 
-                     }
-                }, 300);
-                document.body.style.overflow = '';
-            }
-
-            // Close on X click
-            closeModalBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                closeAuthModal();
-            });
-
-            // Close on background click
-            authModal.addEventListener('click', (e) => {
-                if (e.target === authModal) {
-                    closeAuthModal();
-                }
-            });
-
-            // Close on Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && authModal.classList.contains('active')) {
-                    closeAuthModal();
-                }
-            });
-        } else {
-            console.error("Auth modal elements not found in DOM");
-        }
-
-        // Trigger initial fade-ins
+        // Trigger initial hero animations
         document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
-            setTimeout(() => {
-                el.classList.add('visible');
-            }, 200 * index);
+            setTimeout(() => el.classList.add('visible'), 200 * index);
         });
-
-        if (window.scrollY > 50 && header) {
-            header.classList.add('scrolled');
-        }
     });
 
-    // ===== PARALLAX (Outside DOMContentLoaded is okay, but safer inside) =====
+    // --- H. PARALLAX EFFECT ---
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const heroBackground = document.querySelector('.hero-background');
-        if (heroBackground) {
-            heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
-        }
-
-        const orbs = document.querySelectorAll('.floating-orb');
-        orbs.forEach((orb, index) => {
-            const speed = 0.03 + (index * 0.01);
-            orb.style.transform = `translateY(${scrolled * speed}px)`;
-        });
+        const heroBg = document.querySelector('.hero-background');
+        if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.05}px)`;
     });
 
-    // ===== GLOW EFFECT =====
-    const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
-
-    interactiveElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
-        });
-
-        element.addEventListener('mouseleave', () => {
-            if (element.classList.contains('btn-primary')) {
-                element.style.boxShadow = 'var(--shadow-glow)';
-            } else {
-                element.style.boxShadow = '';
-            }
-        });
-    });
-
-    // ===== SUPABASE PLACEHOLDER =====
+    // --- I. PLACEHOLDER SIGN IN ---
     async function signInWithGoogle() {
-        console.log("Initiating Google Sign-In...");
-        alert("This button is connected! Configure Supabase keys to continue.");
+        console.log("Google Sign In clicked");
+        alert("Google Sign-In is ready to be connected to Supabase!");
     }
 </script>
+    
 </body>
 </html>
+
 
