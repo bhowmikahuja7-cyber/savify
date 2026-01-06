@@ -12,6 +12,10 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         /* ===== PREMIUM CSS RESET & VARIABLES ===== */
         * {
@@ -310,9 +314,9 @@
                     var(--color-gold) 70%,
                     var(--color-charcoal) 100%);
             background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             animation: gradientShift 8s ease infinite;
             font-family: var(--font-secondary);
             font-weight: 600;
@@ -395,9 +399,9 @@
             letter-spacing: -0.03em;
             background: linear-gradient(135deg, var(--color-emerald) 0%, var(--color-gold) 100%);
             background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             animation: gradientShift 8s ease infinite;
         }
 
@@ -492,6 +496,203 @@
         .btn-signup:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        /* ===== PROFILE ICON STYLES ===== */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gradient-emerald);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-ivory);
+            font-weight: var(--font-weight-bold);
+            font-size: 0.875rem;
+            border: 2px solid var(--color-ivory);
+            box-shadow: var(--shadow-subtle);
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 0.8125rem;
+            font-weight: var(--font-weight-medium);
+            color: var(--color-obsidian);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-profile .fa-chevron-down {
+            font-size: 0.75rem;
+            color: var(--color-stone);
+            transition: transform var(--transition-fast);
+        }
+
+        .user-profile:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--color-ivory);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-large);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+            margin-top: 10px;
+            overflow: hidden;
+            animation: slideUp 0.2s ease;
+        }
+
+        .profile-dropdown.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            color: var(--color-graphite);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--color-cream);
+            color: var(--color-obsidian);
+            padding-left: 1.25rem;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            color: var(--color-emerald);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--color-border);
+            margin: 0.25rem 0;
+        }
+
+        /* ===== AUTH MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .auth-modal {
+            background: var(--color-ivory);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: var(--shadow-luxury);
+            border: 1px solid var(--color-border);
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .modal-overlay.active .auth-modal {
+            transform: translateY(0);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--color-stone);
+            cursor: pointer;
+            transition: color 0.2s;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal-btn:hover {
+            color: var(--color-obsidian);
+            transform: rotate(90deg);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            padding: 1rem;
+            margin-top: var(--space-lg);
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            color: var(--color-charcoal);
+            font-weight: var(--font-weight-medium);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .google-btn:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+            border-color: var(--color-emerald);
         }
 
         /* ===== PREMIUM HEADER ===== */
@@ -749,10 +950,7 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
-        /* Find and REPLACE your existing .bar-label and .bar-percentage styles */
-
         .bar-label {
-            /* REMOVED: position: absolute; bottom: ... left: ... */
             margin-top: 15px;
             font-weight: 600;
             font-size: 0.85rem;
@@ -762,7 +960,6 @@
         }
 
         .bar-percentage {
-            /* REMOVED: position: absolute; top: ... left: ... */
             font-weight: 700;
             color: var(--color-emerald);
             font-size: 1.1rem;
@@ -771,14 +968,12 @@
             width: 100%;
         }
 
-        /* ADD this new class to ensure the columns align properly */
         .chart-bar-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            /* Pushes bars to the bottom */
             height: 100%;
             position: relative;
         }
@@ -964,9 +1159,9 @@
             font-size: 4.5rem;
             font-weight: var(--font-weight-bold);
             background: linear-gradient(135deg, var(--color-emerald), var(--color-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
         .score-label {
@@ -1599,7 +1794,6 @@
 </head>
 
 <body>
-    <!-- Premium Header -->
     <header class="header" id="header">
         <div class="container">
             <div class="header-content">
@@ -1614,9 +1808,43 @@
                         <a href="#competition" class="nav-link">Competition</a>
                         <a href="#status" class="nav-link">Status</a>
                     </div>
-                    <div class="auth-buttons">
-                        <a href="#" class="btn btn-auth btn-login">Log in</a>
-                        <a href="#" class="btn btn-auth btn-signup">Sign up free</a>
+                    <div class="auth-buttons" id="authButtons">
+                        <!-- Initially shows login/signup buttons -->
+                        <a href="#" class="btn btn-auth btn-login desktop-login-btn">Log in</a>
+                        <a href="#" class="btn btn-auth btn-signup desktop-signup-btn">Sign up free</a>
+                        
+                        <!-- Hidden initially, shown when logged in -->
+                        <div class="user-profile" id="userProfile" style="display: none;">
+                            <div class="profile-avatar" id="profileAvatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span class="profile-name" id="profileName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <a href="https://savifytrial.vercel.app/dashboard.html" class="dropdown-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Dashboard
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-user-circle"></i>
+                                    My Profile
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    Balance Score
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-trophy"></i>
+                                    Achievements
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </nav>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1626,7 +1854,6 @@
         </div>
     </header>
 
-    <!-- Mobile Navigation -->
     <div class="mobile-nav" id="mobileNav">
         <div class="nav-links">
             <a href="#insight" class="nav-link">Insight</a>
@@ -1634,13 +1861,31 @@
             <a href="#competition" class="nav-link">Competition</a>
             <a href="#status" class="nav-link">Status</a>
         </div>
-        <div class="auth-buttons">
-            <a href="#" class="btn btn-auth btn-login">Log in</a>
-            <a href="#" class="btn btn-auth btn-signup">Sign up free</a>
+        <div class="auth-buttons" id="mobileAuthButtons">
+            <!-- Initially shows login/signup buttons -->
+            <a href="#" class="btn btn-auth btn-login mobile-login-btn">Log in</a>
+            <a href="#" class="btn btn-auth btn-signup mobile-signup-btn">Sign up free</a>
+            
+            <!-- Hidden initially, shown when logged in -->
+            <div class="user-profile" id="mobileUserProfile" style="display: none; margin-top: 1rem;">
+                <div class="profile-avatar" id="mobileProfileAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span class="profile-name" id="mobileProfileName">User</span>
+                <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="https://savifytrial.vercel.app/dashboard.html" class="btn btn-auth" style="justify-content: center;">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                    <a href="#" class="btn btn-auth mobile-logout-btn" style="justify-content: center;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Luxury Hero Section -->
     <section class="hero section">
         <div class="hero-background">
             <div class="floating-orb orb-1"></div>
@@ -1655,7 +1900,7 @@
                     saving more. It's about spending right.
                 </p>
                 <div class="hero-cta">
-                    <a href="#" class="btn btn-primary fade-in delay-2">
+                    <a href="#" class="btn btn-primary fade-in delay-2 get-started-btn">
                         <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
                         Check Your Balance Score
                     </a>
@@ -1667,7 +1912,6 @@
         </div>
     </section>
 
-    <!-- Core Insight Section -->
     <section id="insight" class="section section-light">
         <div class="container">
             <div class="section-title fade-in">A Different Perspective</div>
@@ -1679,7 +1923,7 @@
 
             <div class="allocation-chart fade-in delay-3">
                 <div class="chart-container" id="allocationChart">
-                    <!-- Bars will be generated by JavaScript -->
+                    <!-- Chart will be generated by JavaScript -->
                 </div>
                 <div class="chart-legend">
                     <div class="legend-item">
@@ -1711,7 +1955,6 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
     <section class="section">
         <div class="container">
             <div class="section-title fade-in">Simple Weekly Rhythm</div>
@@ -1749,7 +1992,6 @@
         </div>
     </section>
 
-    <!-- Balance Score Section -->
     <section id="balance" class="section section-light">
         <div class="container">
             <div class="balance-score-container">
@@ -1803,7 +2045,6 @@
         </div>
     </section>
 
-    <!-- Competition Section -->
     <section id="competition" class="section">
         <div class="container">
             <div class="section-title fade-in">Healthy Rivalry</div>
@@ -1841,7 +2082,6 @@
         </div>
     </section>
 
-    <!-- Status Section -->
     <section id="status" class="section section-light">
         <div class="container">
             <div class="section-title fade-in">Recognition, Not Rewards</div>
@@ -1918,7 +2158,6 @@
         </div>
     </section>
 
-    <!-- Philosophy Section -->
     <section class="section section-dark philosophy">
         <div class="philosophy-bg"></div>
         <div class="container">
@@ -1936,7 +2175,6 @@
         </div>
     </section>
 
-    <!-- Final CTA -->
     <section class="footer-cta">
         <div class="cta-glow"></div>
         <div class="container">
@@ -1946,7 +2184,7 @@
                 Discover your Balance Score in minutes—no strings attached.
             </p>
             <div class="cta-buttons">
-                <a href="#" class="btn btn-primary fade-in delay-2">
+                <a href="#" class="btn btn-primary fade-in delay-2 cta-get-started-btn">
                     <i class="fas fa-chart-line" style="margin-right: 12px;"></i>
                     Get Your Free Score
                 </a>
@@ -1961,7 +2199,6 @@
         </div>
     </section>
 
-    <!-- Luxury Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -2030,148 +2267,250 @@
         </div>
     </footer>
 
+    <div class="modal-overlay" id="authModal">
+        <div class="auth-modal">
+            <button class="close-modal-btn" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="margin-bottom: 1.5rem;">
+                <i class="fas fa-chart-pie"
+                    style="font-size: 3rem; color: var(--color-emerald); margin-bottom: 1rem;"></i>
+                <h3 class="tier-title" style="color: var(--color-obsidian);">Welcome to Savify</h3>
+                <p class="body-text">Sign in to see your Balance Score</p>
+            </div>
+
+            <button class="google-btn" id="googleSignInBtn">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"
+                    style="width: 24px; height: 24px;">
+                Continue with Google
+            </button>
+
+            <p class="body-text" style="font-size: 0.8rem; margin-top: 1.5rem; color: var(--color-stone-light);">
+                By continuing, you agree to our Terms of Service and Privacy Policy.
+            </p>
+        </div>
+    </div>
+
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // ===== GLOBAL VARIABLES =====
+        let supabaseClient = null;
+        let currentUser = null;
 
-        // ===== MOBILE MENU TOGGLE =====
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        const header = document.getElementById('header');
+        // ===== DOM CONTENT LOADED =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Lucide icons
+            lucide.createIcons();
 
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileNav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
-                ? '<i class="fas fa-times"></i>'
-                : '<i class="fas fa-bars"></i>';
+            // Initialize Supabase
+            initializeSupabase();
+
+            // Initialize all components
+            initializeComponents();
         });
 
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileNav.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        // ===== SUPABASE INITIALIZATION =====
+        function initializeSupabase() {
+            const supabaseUrl = 'https://zipowqnjznngzyxdtxwm.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppcG93cW5qem5uZ3p5eGR0eHdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2NzEyNTQsImV4cCI6MjA4MzI0NzI1NH0.6OKydmyzpbtyWG7GzTSnXwudwBABsFVWiNfX4G7II3g';
+            
+            try {
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+                console.log("Supabase initialized successfully");
+                
+                // Check auth state after initialization
+                checkAuthState();
+                
+                // Listen for auth state changes
+                supabaseClient.auth.onAuthStateChange((event, session) => {
+                    console.log("Auth state changed:", event);
+                    if (event === 'SIGNED_IN' && session?.user) {
+                        currentUser = session.user;
+                        updateAuthUI(currentUser);
+                        window.location.href = 'https://savifytrial.vercel.app/dashboard.html';
+                    } else if (event === 'SIGNED_OUT') {
+                        currentUser = null;
+                        updateAuthUI(null);
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing Supabase:", error);
             }
-        });
+        }
 
-        // Close mobile menu when clicking a link
-        mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
+        // ===== COMPONENT INITIALIZATION =====
+        function initializeComponents() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
 
-        // ===== HEADER SCROLL EFFECT =====
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileNav.classList.toggle('active');
+                    mobileMenuBtn.innerHTML = mobileNav.classList.contains('active')
+                        ? '<i class="fas fa-times"></i>'
+                        : '<i class="fas fa-bars"></i>';
+                });
             }
-        });
 
-        // ===== INTERACTIVE ALLOCATION CHART =====
-        const allocationChart = document.getElementById('allocationChart');
-        const allocationData = [
-            {
-                label: 'Optimal Balance',
-                necessities: 50,
-                development: 30,
-                enjoyment: 20,
-                total: 100,
-                color: 'var(--gradient-emerald)'
-            },
-            {
-                label: 'Average Student',
-                necessities: 40,
-                development: 25,
-                enjoyment: 35,
-                total: 100,
-                color: 'var(--gradient-gold)'
-            },
-            {
-                label: 'Needs Improvement',
-                necessities: 30,
-                development: 15,
-                enjoyment: 55,
-                total: 100,
-                color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)'
-            }
-        ];
-
-        // Clear any existing content
-        allocationChart.innerHTML = '';
-
-        // Replace your existing allocationData.forEach loop with this:
-
-        allocationData.forEach((data, index) => {
-            // 1. Create the container
-            const barContainer = document.createElement('div');
-            barContainer.className = 'chart-bar-container'; // Uses the new CSS class
-
-            // 2. Create elements
-            const percentage = document.createElement('div');
-            percentage.className = 'bar-percentage';
-            percentage.textContent = `${data.total}%`;
-
-            const bar = document.createElement('div');
-            bar.className = 'chart-bar';
-            bar.style.background = data.color;
-            bar.style.width = '60px'; // Fixed width for cleaner look
-            bar.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
-            bar.style.height = '0px'; // Start at 0 for animation
-
-            const label = document.createElement('div');
-            label.className = 'bar-label';
-            label.textContent = data.label;
-
-            // 3. Append in correct visual order
-            barContainer.appendChild(percentage); // Top
-            barContainer.appendChild(bar);        // Middle
-            barContainer.appendChild(label);      // Bottom
-
-            allocationChart.appendChild(barContainer);
-
-            // 4. Animate width/height
-            setTimeout(() => {
-                // Calculate height (max 200px)
-                const targetHeight = (data.total / 100) * 200;
-                bar.style.height = `${targetHeight}px`;
-                bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
-            }, 100 + (index * 100)); // Reduced delay for faster loading
-        });
-        // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-
-                    // Animate balance score when in view
-                    if (entry.target.classList.contains('score-display')) {
-                        animateBalanceScore();
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (mobileNav && mobileMenuBtn && !mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileNav.classList.remove('active');
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
                 }
             });
-        }, observerOptions);
 
-        // Observe all fade-in elements
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
+            // Close mobile menu when clicking a link
+            if (mobileNav) {
+                mobileNav.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNav.classList.remove('active');
+                        if (mobileMenuBtn) {
+                            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        }
+                    });
+                });
+            }
 
-        // ===== ANIMATED BALANCE SCORE =====
+            // Header scroll effect
+            const header = document.getElementById('header');
+            if (header) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 50) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                });
+            }
+
+            // Interactive allocation chart
+            createAllocationChart();
+
+            // Intersection Observer for animations
+            setupIntersectionObserver();
+
+            // Smooth scrolling
+            setupSmoothScrolling();
+
+            // Parallax background effect
+            setupParallaxEffect();
+
+            // Glow effects
+            setupGlowEffects();
+
+            // Auth modal
+            setupAuthModal();
+
+            // User profile dropdown
+            setupUserProfile();
+
+            // Auth buttons
+            setupAuthButtons();
+        }
+
+        // ===== ALLOCATION CHART =====
+        function createAllocationChart() {
+            const allocationChart = document.getElementById('allocationChart');
+            if (!allocationChart) return;
+
+            const allocationData = [
+                {
+                    label: 'Optimal Balance',
+                    necessities: 50,
+                    development: 30,
+                    enjoyment: 20,
+                    total: 100,
+                    color: 'var(--gradient-emerald)'
+                },
+                {
+                    label: 'Average Student',
+                    necessities: 40,
+                    development: 25,
+                    enjoyment: 35,
+                    total: 100,
+                    color: 'var(--gradient-gold)'
+                },
+                {
+                    label: 'Needs Improvement',
+                    necessities: 30,
+                    development: 15,
+                    enjoyment: 55,
+                    total: 100,
+                    color: 'linear-gradient(135deg, #8B5CF6, #A78BFA)'
+                }
+            ];
+
+            allocationChart.innerHTML = '';
+
+            allocationData.forEach((data, index) => {
+                const barContainer = document.createElement('div');
+                barContainer.className = 'chart-bar-container';
+
+                const percentage = document.createElement('div');
+                percentage.className = 'bar-percentage';
+                percentage.textContent = `${data.total}%`;
+
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.background = data.color;
+                bar.style.width = '60px';
+                bar.style.borderRadius = 'var(--radius-md) var(--radius-md) 0 0';
+                bar.style.height = '0px';
+
+                const label = document.createElement('div');
+                label.className = 'bar-label';
+                label.textContent = data.label;
+
+                barContainer.appendChild(percentage);
+                barContainer.appendChild(bar);
+                barContainer.appendChild(label);
+
+                allocationChart.appendChild(barContainer);
+
+                setTimeout(() => {
+                    const targetHeight = (data.total / 100) * 200;
+                    bar.style.height = `${targetHeight}px`;
+                    bar.style.transition = 'height 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, 100 + (index * 100));
+            });
+        }
+
+        // ===== INTERSECTION OBSERVER =====
+        function setupIntersectionObserver() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        if (entry.target.classList.contains('score-display')) {
+                            animateBalanceScore();
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // ===== BALANCE SCORE ANIMATION =====
         function animateBalanceScore() {
             const scoreElement = document.getElementById('scoreValue');
+            if (!scoreElement) return;
+
             const targetScore = 86;
             let currentScore = 0;
-            const duration = 2500; // ms
+            const duration = 2500;
             const increment = targetScore / (duration / 16);
 
             const timer = setInterval(() => {
@@ -2185,84 +2524,303 @@
         }
 
         // ===== SMOOTH SCROLLING =====
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
-        });
+        }
 
-        // ===== PARALLAX BACKGROUND EFFECT =====
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const heroBackground = document.querySelector('.hero-background');
-            if (heroBackground) {
-                heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
+        // ===== PARALLAX EFFECT =====
+        function setupParallaxEffect() {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const heroBackground = document.querySelector('.hero-background');
+                if (heroBackground) {
+                    heroBackground.style.transform = `translateY(${scrolled * 0.05}px)`;
+                }
+
+                const orbs = document.querySelectorAll('.floating-orb');
+                orbs.forEach((orb, index) => {
+                    const speed = 0.03 + (index * 0.01);
+                    orb.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        }
+
+        // ===== GLOW EFFECTS =====
+        function setupGlowEffects() {
+            const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    if (element.classList.contains('btn-primary')) {
+                        element.style.boxShadow = 'var(--shadow-glow)';
+                    } else {
+                        element.style.boxShadow = '';
+                    }
+                });
+            });
+
+            // Random glow pulses
+            setInterval(() => {
+                const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+                if (interactiveElements.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * interactiveElements.length);
+                    const randomElement = interactiveElements[randomIndex];
+                    const originalBoxShadow = randomElement.style.boxShadow;
+                    randomElement.style.boxShadow = '0 0 40px rgba(16, 185, 129, 0.6)';
+                    setTimeout(() => {
+                        randomElement.style.boxShadow = originalBoxShadow;
+                    }, 300);
+                }
+            }, 3000);
+        }
+
+        // ===== AUTH MODAL =====
+        function setupAuthModal() {
+            const authModal = document.getElementById('authModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const googleSignInBtn = document.getElementById('googleSignInBtn');
+
+            // Open Modal
+            function openAuthModal() {
+                if (authModal) {
+                    authModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             }
 
-            // Parallax for orbs
-            const orbs = document.querySelectorAll('.floating-orb');
-            orbs.forEach((orb, index) => {
-                const speed = 0.03 + (index * 0.01);
-                orb.style.transform = `translateY(${scrolled * speed}px)`;
+            // Close Modal Function
+            function closeAuthModal() {
+                if (authModal) {
+                    authModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Event listeners for opening modal
+            document.querySelectorAll('.get-started-btn, .cta-get-started-btn, .desktop-login-btn, .desktop-signup-btn, .mobile-login-btn, .mobile-signup-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openAuthModal();
+                });
             });
-        });
 
-        // ===== GLOW EFFECT ON INTERACTIVE ELEMENTS =====
-        const interactiveElements = document.querySelectorAll('.btn-primary, .competition-card, .tier-card, .step');
+            // Close on X click
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeAuthModal);
+            }
 
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                element.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2), 0 0 60px rgba(16, 185, 129, 0.3)';
+            // Close on background click
+            if (authModal) {
+                authModal.addEventListener('click', function(e) {
+                    if (e.target === authModal) {
+                        closeAuthModal();
+                    }
+                });
+            }
+
+            // Close on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && authModal && authModal.classList.contains('active')) {
+                    closeAuthModal();
+                }
             });
 
-            element.addEventListener('mouseleave', () => {
-                if (element.classList.contains('btn-primary')) {
-                    element.style.boxShadow = 'var(--shadow-glow)';
+            // Google sign in
+            if (googleSignInBtn) {
+                googleSignInBtn.addEventListener('click', signInWithGoogle);
+            }
+        }
+
+        // ===== USER PROFILE DROPDOWN =====
+        function setupUserProfile() {
+            const userProfile = document.getElementById('userProfile');
+            const profileDropdown = document.getElementById('profileDropdown');
+
+            if (userProfile && profileDropdown) {
+                userProfile.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('active');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    profileDropdown.classList.remove('active');
+                });
+            }
+        }
+
+        // ===== AUTH BUTTONS =====
+        function setupAuthButtons() {
+            // Logout buttons
+            document.querySelectorAll('.logout-btn, .mobile-logout-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    signOut();
+                });
+            });
+        }
+
+        // ===== AUTHENTICATION FUNCTIONS =====
+        async function signInWithGoogle() {
+            try {
+                if (!supabaseClient) {
+                    console.error("Supabase client not initialized");
+                    return;
+                }
+                
+                console.log("Initiating Google Sign-In...");
+                
+                const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: 'https://savifytrial.vercel.app/dashboard.html'
+                    }
+                });
+                
+                if (error) {
+                    console.error("Error signing in with Google:", error);
+                    alert("Error signing in. Please try again.");
+                }
+            } catch (error) {
+                console.error("Google sign-in error:", error);
+                alert("Failed to sign in with Google. Please try again.");
+            }
+        }
+
+        async function signOut() {
+            try {
+                if (!supabaseClient) {
+                    console.error("Supabase client not initialized");
+                    return;
+                }
+                
+                const { error } = await supabaseClient.auth.signOut();
+                if (error) throw error;
+                
+                // Update UI to show logged out state
+                updateAuthUI(null);
+                alert("Successfully logged out!");
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Error signing out. Please try again.");
+            }
+        }
+
+        function updateAuthUI(user) {
+            const authButtons = document.getElementById('authButtons');
+            const userProfile = document.getElementById('userProfile');
+            const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+            const mobileUserProfile = document.getElementById('mobileUserProfile');
+            
+            if (user) {
+                // User is logged in
+                // Hide login/signup buttons
+                if (authButtons) {
+                    const desktopLoginBtn = authButtons.querySelector('.desktop-login-btn');
+                    const desktopSignupBtn = authButtons.querySelector('.desktop-signup-btn');
+                    if (desktopLoginBtn) desktopLoginBtn.style.display = 'none';
+                    if (desktopSignupBtn) desktopSignupBtn.style.display = 'none';
+                    
+                    // Show user profile
+                    if (userProfile) userProfile.style.display = 'flex';
+                    
+                    // Update user info
+                    const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+                    const avatarLetter = displayName.charAt(0).toUpperCase();
+                    
+                    const profileName = document.getElementById('profileName');
+                    const profileAvatar = document.getElementById('profileAvatar');
+                    if (profileName) profileName.textContent = displayName;
+                    if (profileAvatar) profileAvatar.innerHTML = `<span>${avatarLetter}</span>`;
+                }
+                
+                // Mobile version
+                if (mobileAuthButtons) {
+                    const mobileLoginBtn = mobileAuthButtons.querySelector('.mobile-login-btn');
+                    const mobileSignupBtn = mobileAuthButtons.querySelector('.mobile-signup-btn');
+                    if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+                    if (mobileSignupBtn) mobileSignupBtn.style.display = 'none';
+                    if (mobileUserProfile) mobileUserProfile.style.display = 'flex';
+                    
+                    const mobileProfileName = document.getElementById('mobileProfileName');
+                    const mobileProfileAvatar = document.getElementById('mobileProfileAvatar');
+                    if (mobileProfileName) mobileProfileName.textContent = displayName;
+                    if (mobileProfileAvatar) mobileProfileAvatar.innerHTML = `<span>${avatarLetter}</span>`;
+                }
+                
+                // Close auth modal if open
+                const authModal = document.getElementById('authModal');
+                if (authModal && authModal.classList.contains('active')) {
+                    authModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            } else {
+                // User is logged out
+                // Show login/signup buttons
+                if (authButtons) {
+                    const desktopLoginBtn = authButtons.querySelector('.desktop-login-btn');
+                    const desktopSignupBtn = authButtons.querySelector('.desktop-signup-btn');
+                    if (desktopLoginBtn) desktopLoginBtn.style.display = 'flex';
+                    if (desktopSignupBtn) desktopSignupBtn.style.display = 'flex';
+                    
+                    // Hide user profile
+                    if (userProfile) userProfile.style.display = 'none';
+                }
+                
+                // Mobile version
+                if (mobileAuthButtons) {
+                    const mobileLoginBtn = mobileAuthButtons.querySelector('.mobile-login-btn');
+                    const mobileSignupBtn = mobileAuthButtons.querySelector('.mobile-signup-btn');
+                    if (mobileLoginBtn) mobileLoginBtn.style.display = 'flex';
+                    if (mobileSignupBtn) mobileSignupBtn.style.display = 'flex';
+                    if (mobileUserProfile) mobileUserProfile.style.display = 'none';
+                }
+            }
+        }
+
+        // Check current auth state
+        async function checkAuthState() {
+            try {
+                if (!supabaseClient) {
+                    console.error("Supabase client not initialized");
+                    return;
+                }
+                
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+                if (error) throw error;
+                
+                if (user) {
+                    console.log("User is logged in:", user.email);
+                    currentUser = user;
+                    updateAuthUI(user);
                 } else {
-                    element.style.boxShadow = '';
+                    console.log("No user logged in");
+                    currentUser = null;
+                    updateAuthUI(null);
                 }
-            });
-        });
-
-        // ===== RANDOM GLOW PULSES =====
-        setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * interactiveElements.length);
-            const randomElement = interactiveElements[randomIndex];
-
-            const originalBoxShadow = randomElement.style.boxShadow;
-            randomElement.style.boxShadow = '0 0 40px rgba(16, 185, 129, 0.6)';
-
-            setTimeout(() => {
-                randomElement.style.boxShadow = originalBoxShadow;
-            }, 300);
-        }, 3000);
-
-        // ===== INITIALIZE ON LOAD =====
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add visible class to hero elements immediately
-            document.querySelectorAll('.hero .fade-in').forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add('visible');
-                }, 200 * index);
-            });
-
-            // Initialize header
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
+            } catch (error) {
+                console.error("Error checking auth state:", error);
+                currentUser = null;
+                updateAuthUI(null);
             }
-        });
+        }
     </script>
 </body>
-
 </html>
